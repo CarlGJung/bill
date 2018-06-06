@@ -1,4 +1,4 @@
-package com.carljung.bill.db;
+package top.carljung.bill.db;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

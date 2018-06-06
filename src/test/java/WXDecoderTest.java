@@ -1,5 +1,5 @@
 
-import com.carljung.bill.wx.WXBizDataCrypt;
+import top.carljung.bill.wx.WXBizDataCrypt;
 import java.io.UnsupportedEncodingException;
 import java.security.AlgorithmParameters;
 import java.security.InvalidAlgorithmParameterException;

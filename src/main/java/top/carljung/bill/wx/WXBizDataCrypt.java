@@ -1,4 +1,4 @@
-package com.carljung.bill.wx;
+package top.carljung.bill.wx;
 
 import java.io.UnsupportedEncodingException;
 import java.security.AlgorithmParameters;

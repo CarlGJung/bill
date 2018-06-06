@@ -1,6 +1,6 @@
 package top.carljung.bill.server.services;
 
-import com.carljung.bill.db.User;
+import top.carljung.bill.db.User;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import javax.servlet.http.HttpServletRequest;

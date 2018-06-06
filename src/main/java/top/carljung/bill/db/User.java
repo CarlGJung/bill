@@ -1,4 +1,4 @@
-package com.carljung.bill.db;
+package top.carljung.bill.db;
 
 import org.apache.commons.lang3.StringUtils;
 import org.javalite.activejdbc.Model;
