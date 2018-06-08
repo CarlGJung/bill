@@ -88,7 +88,16 @@
             <artifactId>bcprov-ext-jdk16</artifactId>
             <version>1.46</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>2.11.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.11.0</version>
+        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -99,7 +108,7 @@
     </dependencies>
     
     <build>  
-    <plugins>
+     <plugins>
         <!-- 打包jar文件时，配置manifest文件，加入lib包的jar依赖 -->  
         <plugin>  
             <groupId>org.apache.maven.plugins</groupId>  
@@ -122,26 +131,27 @@
                 </archive>  
             </configuration>  
         </plugin>
-        <plugin>  
-         <groupId>org.codehaus.mojo</groupId>  
-          <artifactId>exec-maven-plugin</artifactId>  
-          <version>1.1.1</version>  
-          <executions>  
-            <execution>  
-            <phase>test</phase>  
-            <goals>  
-             <goal>java</goal>  
-            </goals>  
-            <configuration>  
-             <mainClass>top.carljung.bill.server.ServerMain</mainClass>  
-             <arguments>  
-              <argument>arg0</argument>  
-              <argument>arg1</argument>  
-             </arguments>  
-          </configuration>  
-         </execution>  
-        </executions>  
-       </plugin> 
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <version>2.10</version>
+            <executions>
+                <execution>
+                    <id>copy-dependencies</id>
+                    <phase>package</phase>
+                    <goals>
+                        <goal>copy-dependencies</goal>
+                    </goals>
+                    <configuration>
+                        <outputDirectory>${project.build.directory}/lib</outputDirectory>
+<!--                            <overWriteReleases>false</overWriteReleases>
+                        <overWriteSnapshots>false</overWriteSnapshots>
+                        <overWriteIfNewer>true</overWriteIfNewer>
+                        <excludeClassifiers>tests</excludeClassifiers>-->
+                    </configuration>
+                </execution>
+            </executions>
+        </plugin>
         <plugin>  
           <groupId>org.apache.maven.plugins</groupId>  
           <artifactId>maven-surefire-plugin</artifactId>  

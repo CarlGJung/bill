@@ -4,7 +4,6 @@ import top.carljung.bill.db.User;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -55,6 +54,7 @@ public class WeChatServices {
         
         if (StringUtils.isNotBlank(loginRsp.getErrorCode()) && (user = User.ensureWXUser(loginRsp)) != null) {
             Session session = SessionFactory.instance().getSession(req);
+            session.setAttribute("wx", loginRsp);
             status = Response.Status.OK;
             cookie = new NewCookie("session", session.getId(), null, null, 1, null, Session.ALIVE_TIME_SECOND, null, false, false);
         } else {

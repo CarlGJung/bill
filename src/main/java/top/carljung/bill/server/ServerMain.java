@@ -4,7 +4,10 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.glassfish.jersey.server.ApplicationHandler;
 import org.glassfish.grizzly.http.server.HttpServer;
+import org.glassfish.grizzly.http.server.ServerConfiguration;
+import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpContainer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 
 /**
@@ -13,10 +16,9 @@ import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
  */
 public class ServerMain {
     public static void main(String[] args){
-        final URI BASE_URI = URI.create("http://localhost:18080/");
+        final URI BASE_URI = URI.create("http://0.0.0.0:18080/");
         final HttpServer server = GrizzlyHttpServerFactory.createHttpServer(BASE_URI,
                     new Application(), false);
-        
         Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
             @Override
             public void run() {
