@@ -3,7 +3,6 @@ package top.carljung.bill.server.services;
 import top.carljung.bill.db.User;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -18,6 +17,7 @@ import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import org.apache.commons.lang3.StringUtils;
+import org.glassfish.grizzly.http.server.Request;
 import top.carljung.bill.factory.SessionFactory;
 import top.carljung.bill.pojo.WXLoginResponse;
 import top.carljung.bill.server.Session;
@@ -33,7 +33,7 @@ public class WeChatServices {
     @GET
     @Path("/login/{jsCode}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response login(@PathParam("jsCode") String jsCode, @Context HttpServletRequest req){
+    public Response login(@PathParam("jsCode") String jsCode, @Context Request req){
         Client client = ClientBuilder.newClient();
         WebTarget baseTarget = client.target("https://api.weixin.qq.com/sns/jscode2session");
         WebTarget fullTarget = baseTarget

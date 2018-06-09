@@ -2,11 +2,11 @@ package top.carljung.bill.factory;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.container.ContainerRequestContext;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.glassfish.grizzly.http.Cookie;
+import org.glassfish.grizzly.http.server.Request;
 import top.carljung.bill.server.Session;
 
 /**
@@ -32,7 +32,7 @@ public class SessionFactory {
         
         return sessionFactory;
     }
-    public Session getSession(HttpServletRequest request){
+    public Session getSession(Request request){
         String sessionId = null;
         
         for (Cookie cookie : request.getCookies()) {
