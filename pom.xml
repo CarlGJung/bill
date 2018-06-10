@@ -95,6 +95,12 @@
             <version>3.5.1</version>
         </dependency>
         <dependency>
+            <groupId>com.google.protobuf</groupId>
+            <artifactId>protoc</artifactId>
+            <version>3.5.1</version>
+            <type>pom</type>
+        </dependency>
+        <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-api</artifactId>
             <version>2.11.0</version>
@@ -113,8 +119,42 @@
         </dependency>
     </dependencies>
     
-    <build>  
+    <build> 
+      <extensions> 
+        <!-- 获取操作系统版本 -->  
+        <extension> 
+            <groupId>kr.motd.maven</groupId> 
+            <artifactId>os-maven-plugin</artifactId> 
+            <version>1.4.1.Final</version> 
+        </extension> 
+    </extensions>
      <plugins>
+        <plugin> 
+            <groupId>org.xolstice.maven.plugins</groupId> 
+            <artifactId>protobuf-maven-plugin</artifactId> 
+            <version>0.5.0</version> 
+            <configuration> 
+                <!-- 
+                  The version of protoc must match protobuf-java. If you don't depend on 
+                  protobuf-java directly, you will be transitively depending on the 
+                  protobuf-java version that grpc depends on. 
+                --> 
+                <protoSourceRoot>${project.basedir}/src/main/resources</protoSourceRoot>
+                <outputDirectory>${project.build.sourceDirectory}</outputDirectory>
+                <clearOutputDirectory>false</clearOutputDirectory>
+                <protocArtifact>com.google.protobuf:protoc:3.5.1:exe:${os.detected.classifier}</protocArtifact> 
+                <pluginId>grpc-java</pluginId> 
+                <pluginArtifact>io.grpc:protoc-gen-grpc-java:0.13.2:exe:${os.detected.classifier}</pluginArtifact> 
+            </configuration> 
+            <executions> 
+                <execution> 
+                    <goals> 
+                        <goal>compile</goal> 
+                        <goal>compile-custom</goal> 
+                    </goals> 
+                </execution> 
+            </executions> 
+        </plugin> 
         <!-- 打包jar文件时，配置manifest文件，加入lib包的jar依赖 -->  
         <plugin>  
             <groupId>org.apache.maven.plugins</groupId>  
@@ -165,7 +205,7 @@
           <configuration>  
             <skipTests>true</skipTests>  
           </configuration>  
-        </plugin>  
+        </plugin>
     </plugins>  
   </build>  
 </project>
