@@ -8,9 +8,6 @@ import java.security.Key;
 import java.security.NoSuchAlgorithmException;
 import java.security.Security;
 import java.security.spec.InvalidParameterSpecException;
-import java.util.Arrays;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
@@ -19,12 +16,15 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import org.apache.commons.codec.binary.Base64;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author wangchao
  */
 public class WXBizDataCrypt {
+    private static final Logger logger = LoggerFactory.getLogger(WXBizDataCrypt.class);
     private static volatile boolean providerAdded = false;
     private static String algorithm = "AES";
     
@@ -43,20 +43,8 @@ public class WXBizDataCrypt {
             byte[] result = cipher.doFinal(encryptedData);
             
             return new String(result, "UTF-8");
-        } catch (NoSuchAlgorithmException | NoSuchPaddingException ex) {
-            Logger.getLogger(WXBizDataCrypt.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InvalidKeyException ex) {
-            Logger.getLogger(WXBizDataCrypt.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InvalidAlgorithmParameterException ex) {
-            Logger.getLogger(WXBizDataCrypt.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InvalidParameterSpecException ex) {
-            Logger.getLogger(WXBizDataCrypt.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalBlockSizeException ex) {
-            Logger.getLogger(WXBizDataCrypt.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (BadPaddingException ex) {
-            Logger.getLogger(WXBizDataCrypt.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (UnsupportedEncodingException ex) {
-            Logger.getLogger(WXBizDataCrypt.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | InvalidAlgorithmParameterException | InvalidParameterSpecException | IllegalBlockSizeException | BadPaddingException | UnsupportedEncodingException ex) {
+            logger.debug("decryptData fails", ex);
         }
         return null;
     }
@@ -70,22 +58,8 @@ public class WXBizDataCrypt {
             algoParam.init(new IvParameterSpec(Base64.decodeBase64(iv)));
             cipher.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(Base64.decodeBase64(key), "AES"), algoParam);
             result = cipher.doFinal(content.getBytes("UTF-8"));
-        } catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(WXBizDataCrypt.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NoSuchPaddingException ex) {
-            Logger.getLogger(WXBizDataCrypt.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InvalidParameterSpecException ex) {
-            Logger.getLogger(WXBizDataCrypt.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InvalidKeyException ex) {
-            Logger.getLogger(WXBizDataCrypt.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InvalidAlgorithmParameterException ex) {
-            Logger.getLogger(WXBizDataCrypt.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (UnsupportedEncodingException ex) {
-            Logger.getLogger(WXBizDataCrypt.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalBlockSizeException ex) {
-            Logger.getLogger(WXBizDataCrypt.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (BadPaddingException ex) {
-            Logger.getLogger(WXBizDataCrypt.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidParameterSpecException | InvalidKeyException | InvalidAlgorithmParameterException | UnsupportedEncodingException | IllegalBlockSizeException | BadPaddingException ex) {
+            logger.debug("encodeDataBase64 fails", ex);
         }
         return Base64.encodeBase64String(result);
     }

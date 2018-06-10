@@ -1,0 +1,11 @@
+{
+    "server":{
+        "docRoot": "",
+        "port": "18080",
+        "salt": ""
+    },
+    "wx": {
+        "appId": "",
+        "secret": ""
+    }
+}
