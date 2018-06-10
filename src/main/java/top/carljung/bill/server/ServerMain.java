@@ -6,8 +6,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.grizzly.http.server.ServerConfiguration;
+import org.glassfish.grizzly.http.server.StaticHttpHandler;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
-import top.carljung.bill.handler.ResourceHandler;
 
 /**
  *
@@ -19,7 +19,9 @@ public class ServerMain {
         final HttpServer server = GrizzlyHttpServerFactory.createHttpServer(BASE_URI,
                     new Application(), false);
         final ServerConfiguration config = server.getServerConfiguration();
-        config.addHttpHandler(ResourceHandler.instance, "/");
+        StaticHttpHandler staticHandler = new StaticHttpHandler("/home/wangchao/MyProjects/Bill/bill-ng/public_html/static");
+        staticHandler.setFileCacheEnabled(false);
+        config.addHttpHandler(staticHandler, "/static");
         Runtime.getRuntime().addShutdownHook(new Thread(server::shutdownNow));
         
         try {

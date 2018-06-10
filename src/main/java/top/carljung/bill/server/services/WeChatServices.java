@@ -32,7 +32,6 @@ public class WeChatServices {
     
     @GET
     @Path("/login/{jsCode}")
-    @Consumes(MediaType.APPLICATION_JSON)
     public Response login(@PathParam("jsCode") String jsCode, @Context Request req){
         Client client = ClientBuilder.newClient();
         WebTarget baseTarget = client.target("https://api.weixin.qq.com/sns/jscode2session");
@@ -55,12 +54,11 @@ public class WeChatServices {
         if (StringUtils.isNotBlank(loginRsp.getErrorCode()) && (user = User.ensureWXUser(loginRsp)) != null) {
             Session session = SessionFactory.instance().getSession(req);
             session.setAttribute("wx", loginRsp);
-            status = Response.Status.OK;
             cookie = new NewCookie("session", session.getId(), null, null, 1, null, Session.ALIVE_TIME_SECOND, null, false, false);
         } else {
             rspMsg = loginRspStr;
-            status = Response.Status.FORBIDDEN;
         }
+        status = Response.Status.OK;
         
         return Response.status(status).cookie(cookie).entity(rspMsg).build();
     }
