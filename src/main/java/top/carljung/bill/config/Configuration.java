@@ -3,6 +3,7 @@ package top.carljung.bill.config;
 import com.googlecode.protobuf.format.JsonFormat;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,13 +18,15 @@ public class Configuration {
     private BillProto.Config config;
     
     private Configuration(){
-        readConfig();
     }
     
     public BillProto.Config getConfig(){
         return config;
     }
     
+    public BillProto.DB getDBConfig(){
+        return getConfig().getDb();
+    }
     public BillProto.WX getWXConfig(){
         return getConfig().getWx();
     }
@@ -32,16 +35,11 @@ public class Configuration {
         return getConfig().getServer();
     }
     
-    private void readConfig(){
+    public void readConfig() throws FileNotFoundException, IOException{
         JsonFormat jsonFormat = new JsonFormat();
         File configJson = new File("config/config.json");
         BillProto.Config.Builder configBuilder = BillProto.Config.newBuilder();
-        try {
-            jsonFormat.merge(new FileInputStream(configJson), configBuilder);
-            config = configBuilder.build();
-        } catch (IOException ex) {
-            logger.debug("read config.json fail: ", ex);
-        }
-        
+        jsonFormat.merge(new FileInputStream(configJson), configBuilder);
+        config = configBuilder.build();
     }
 }

@@ -4,8 +4,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import liquibase.Liquibase;
 import liquibase.database.Database;
 import liquibase.database.DatabaseFactory;
@@ -13,27 +11,28 @@ import liquibase.database.jvm.JdbcConnection;
 import liquibase.exception.LiquibaseException;
 import liquibase.resource.ClassLoaderResourceAccessor;
 import liquibase.resource.ResourceAccessor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import top.carljung.bill.config.BillProto;
+import top.carljung.bill.config.Configuration;
 
 /**
  *
  * @author wangchao
  */
 public class LiquibaseInit {
-    public void init(){
+    private static final Logger logger = LoggerFactory.getLogger(LiquibaseInit.class);
+    
+    public void init() throws LiquibaseException, SQLException{
         String dbFile = "db.xml";
         ResourceAccessor resourceAccessor = new ClassLoaderResourceAccessor(getClass().getClassLoader());
-        String url = "jdbc:mysql://localhost:3306/bill?user=root&password=123456&useUnicode=true&characterEncoding=utf-8&createDatabaseIfNotExist=true&autoReconnect=true&failOverReadOnly=false";
+        BillProto.DB dbConfig = Configuration.instance.getDBConfig();
+        String url = dbConfig.getUrl();
         Properties properties = new Properties();
-        properties.setProperty("driver", "com.mysql.jdbc.Driver");
-        try {
-            Connection connection = DriverManager.getConnection(url, properties);
-            Database db = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(new JdbcConnection(connection));
-            Liquibase liquibase = new Liquibase(dbFile,resourceAccessor, db);
-            liquibase.update("");
-        } catch (SQLException ex) {
-            Logger.getLogger(LiquibaseInit.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (LiquibaseException ex) {
-            Logger.getLogger(LiquibaseInit.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        properties.setProperty("driver", dbConfig.getDriver());
+        Connection connection = DriverManager.getConnection(url, properties);
+        Database db = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(new JdbcConnection(connection));
+        Liquibase liquibase = new Liquibase(dbFile,resourceAccessor, db);
+        liquibase.update("");
     }
 }

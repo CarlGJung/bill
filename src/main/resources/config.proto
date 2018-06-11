@@ -5,12 +5,18 @@ option java_outer_classname="BillProto";
 message Config{
     WX wx = 1;
     Server server = 2;
+    DB db = 3;
+}
+
+message DB{
+    string url = 1;
+    string driver = 2;
 }
 
 message Server{
-    string docRoot = 1;
-    int32 port = 2;
-    string salt = 3;
+    require string docRoot = 1;
+    require int32 port = 2;
+            string salt = 3;
 }
 
 message WX{

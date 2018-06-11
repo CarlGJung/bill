@@ -43,6 +43,19 @@ public final class BillProto {
      * <code>.Server server = 2;</code>
      */
     top.carljung.bill.config.BillProto.ServerOrBuilder getServerOrBuilder();
+
+    /**
+     * <code>.DB db = 3;</code>
+     */
+    boolean hasDb();
+    /**
+     * <code>.DB db = 3;</code>
+     */
+    top.carljung.bill.config.BillProto.DB getDb();
+    /**
+     * <code>.DB db = 3;</code>
+     */
+    top.carljung.bill.config.BillProto.DBOrBuilder getDbOrBuilder();
   }
   /**
    * Protobuf type {@code Config}
@@ -116,6 +129,19 @@ public final class BillProto {
 
               break;
             }
+            case 26: {
+              top.carljung.bill.config.BillProto.DB.Builder subBuilder = null;
+              if (db_ != null) {
+                subBuilder = db_.toBuilder();
+              }
+              db_ = input.readMessage(top.carljung.bill.config.BillProto.DB.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(db_);
+                db_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -182,6 +208,27 @@ public final class BillProto {
       return getServer();
     }
 
+    public static final int DB_FIELD_NUMBER = 3;
+    private top.carljung.bill.config.BillProto.DB db_;
+    /**
+     * <code>.DB db = 3;</code>
+     */
+    public boolean hasDb() {
+      return db_ != null;
+    }
+    /**
+     * <code>.DB db = 3;</code>
+     */
+    public top.carljung.bill.config.BillProto.DB getDb() {
+      return db_ == null ? top.carljung.bill.config.BillProto.DB.getDefaultInstance() : db_;
+    }
+    /**
+     * <code>.DB db = 3;</code>
+     */
+    public top.carljung.bill.config.BillProto.DBOrBuilder getDbOrBuilder() {
+      return getDb();
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -200,6 +247,9 @@ public final class BillProto {
       if (server_ != null) {
         output.writeMessage(2, getServer());
       }
+      if (db_ != null) {
+        output.writeMessage(3, getDb());
+      }
       unknownFields.writeTo(output);
     }
 
@@ -215,6 +265,10 @@ public final class BillProto {
       if (server_ != null) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(2, getServer());
+      }
+      if (db_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, getDb());
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -242,6 +296,11 @@ public final class BillProto {
         result = result && getServer()
             .equals(other.getServer());
       }
+      result = result && (hasDb() == other.hasDb());
+      if (hasDb()) {
+        result = result && getDb()
+            .equals(other.getDb());
+      }
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -260,6 +319,10 @@ public final class BillProto {
       if (hasServer()) {
         hash = (37 * hash) + SERVER_FIELD_NUMBER;
         hash = (53 * hash) + getServer().hashCode();
+      }
+      if (hasDb()) {
+        hash = (37 * hash) + DB_FIELD_NUMBER;
+        hash = (53 * hash) + getDb().hashCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -402,6 +465,12 @@ public final class BillProto {
           server_ = null;
           serverBuilder_ = null;
         }
+        if (dbBuilder_ == null) {
+          db_ = null;
+        } else {
+          db_ = null;
+          dbBuilder_ = null;
+        }
         return this;
       }
 
@@ -433,6 +502,11 @@ public final class BillProto {
           result.server_ = server_;
         } else {
           result.server_ = serverBuilder_.build();
+        }
+        if (dbBuilder_ == null) {
+          result.db_ = db_;
+        } else {
+          result.db_ = dbBuilder_.build();
         }
         onBuilt();
         return result;
@@ -480,6 +554,9 @@ public final class BillProto {
         }
         if (other.hasServer()) {
           mergeServer(other.getServer());
+        }
+        if (other.hasDb()) {
+          mergeDb(other.getDb());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -741,6 +818,123 @@ public final class BillProto {
         }
         return serverBuilder_;
       }
+
+      private top.carljung.bill.config.BillProto.DB db_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          top.carljung.bill.config.BillProto.DB, top.carljung.bill.config.BillProto.DB.Builder, top.carljung.bill.config.BillProto.DBOrBuilder> dbBuilder_;
+      /**
+       * <code>.DB db = 3;</code>
+       */
+      public boolean hasDb() {
+        return dbBuilder_ != null || db_ != null;
+      }
+      /**
+       * <code>.DB db = 3;</code>
+       */
+      public top.carljung.bill.config.BillProto.DB getDb() {
+        if (dbBuilder_ == null) {
+          return db_ == null ? top.carljung.bill.config.BillProto.DB.getDefaultInstance() : db_;
+        } else {
+          return dbBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.DB db = 3;</code>
+       */
+      public Builder setDb(top.carljung.bill.config.BillProto.DB value) {
+        if (dbBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          db_ = value;
+          onChanged();
+        } else {
+          dbBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.DB db = 3;</code>
+       */
+      public Builder setDb(
+          top.carljung.bill.config.BillProto.DB.Builder builderForValue) {
+        if (dbBuilder_ == null) {
+          db_ = builderForValue.build();
+          onChanged();
+        } else {
+          dbBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.DB db = 3;</code>
+       */
+      public Builder mergeDb(top.carljung.bill.config.BillProto.DB value) {
+        if (dbBuilder_ == null) {
+          if (db_ != null) {
+            db_ =
+              top.carljung.bill.config.BillProto.DB.newBuilder(db_).mergeFrom(value).buildPartial();
+          } else {
+            db_ = value;
+          }
+          onChanged();
+        } else {
+          dbBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.DB db = 3;</code>
+       */
+      public Builder clearDb() {
+        if (dbBuilder_ == null) {
+          db_ = null;
+          onChanged();
+        } else {
+          db_ = null;
+          dbBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.DB db = 3;</code>
+       */
+      public top.carljung.bill.config.BillProto.DB.Builder getDbBuilder() {
+        
+        onChanged();
+        return getDbFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.DB db = 3;</code>
+       */
+      public top.carljung.bill.config.BillProto.DBOrBuilder getDbOrBuilder() {
+        if (dbBuilder_ != null) {
+          return dbBuilder_.getMessageOrBuilder();
+        } else {
+          return db_ == null ?
+              top.carljung.bill.config.BillProto.DB.getDefaultInstance() : db_;
+        }
+      }
+      /**
+       * <code>.DB db = 3;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          top.carljung.bill.config.BillProto.DB, top.carljung.bill.config.BillProto.DB.Builder, top.carljung.bill.config.BillProto.DBOrBuilder> 
+          getDbFieldBuilder() {
+        if (dbBuilder_ == null) {
+          dbBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              top.carljung.bill.config.BillProto.DB, top.carljung.bill.config.BillProto.DB.Builder, top.carljung.bill.config.BillProto.DBOrBuilder>(
+                  getDb(),
+                  getParentForChildren(),
+                  isClean());
+          db_ = null;
+        }
+        return dbBuilder_;
+      }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFieldsProto3(unknownFields);
@@ -785,6 +979,668 @@ public final class BillProto {
     }
 
     public top.carljung.bill.config.BillProto.Config getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface DBOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:DB)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>string url = 1;</code>
+     */
+    java.lang.String getUrl();
+    /**
+     * <code>string url = 1;</code>
+     */
+    com.google.protobuf.ByteString
+        getUrlBytes();
+
+    /**
+     * <code>string driver = 2;</code>
+     */
+    java.lang.String getDriver();
+    /**
+     * <code>string driver = 2;</code>
+     */
+    com.google.protobuf.ByteString
+        getDriverBytes();
+  }
+  /**
+   * Protobuf type {@code DB}
+   */
+  public  static final class DB extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:DB)
+      DBOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use DB.newBuilder() to construct.
+    private DB(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private DB() {
+      url_ = "";
+      driver_ = "";
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private DB(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              url_ = s;
+              break;
+            }
+            case 18: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              driver_ = s;
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return top.carljung.bill.config.BillProto.internal_static_DB_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return top.carljung.bill.config.BillProto.internal_static_DB_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              top.carljung.bill.config.BillProto.DB.class, top.carljung.bill.config.BillProto.DB.Builder.class);
+    }
+
+    public static final int URL_FIELD_NUMBER = 1;
+    private volatile java.lang.Object url_;
+    /**
+     * <code>string url = 1;</code>
+     */
+    public java.lang.String getUrl() {
+      java.lang.Object ref = url_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        url_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string url = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getUrlBytes() {
+      java.lang.Object ref = url_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        url_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int DRIVER_FIELD_NUMBER = 2;
+    private volatile java.lang.Object driver_;
+    /**
+     * <code>string driver = 2;</code>
+     */
+    public java.lang.String getDriver() {
+      java.lang.Object ref = driver_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        driver_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string driver = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getDriverBytes() {
+      java.lang.Object ref = driver_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        driver_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!getUrlBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, url_);
+      }
+      if (!getDriverBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, driver_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!getUrlBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, url_);
+      }
+      if (!getDriverBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, driver_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof top.carljung.bill.config.BillProto.DB)) {
+        return super.equals(obj);
+      }
+      top.carljung.bill.config.BillProto.DB other = (top.carljung.bill.config.BillProto.DB) obj;
+
+      boolean result = true;
+      result = result && getUrl()
+          .equals(other.getUrl());
+      result = result && getDriver()
+          .equals(other.getDriver());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + URL_FIELD_NUMBER;
+      hash = (53 * hash) + getUrl().hashCode();
+      hash = (37 * hash) + DRIVER_FIELD_NUMBER;
+      hash = (53 * hash) + getDriver().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static top.carljung.bill.config.BillProto.DB parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static top.carljung.bill.config.BillProto.DB parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static top.carljung.bill.config.BillProto.DB parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static top.carljung.bill.config.BillProto.DB parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static top.carljung.bill.config.BillProto.DB parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static top.carljung.bill.config.BillProto.DB parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static top.carljung.bill.config.BillProto.DB parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static top.carljung.bill.config.BillProto.DB parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static top.carljung.bill.config.BillProto.DB parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static top.carljung.bill.config.BillProto.DB parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static top.carljung.bill.config.BillProto.DB parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static top.carljung.bill.config.BillProto.DB parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(top.carljung.bill.config.BillProto.DB prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code DB}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:DB)
+        top.carljung.bill.config.BillProto.DBOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return top.carljung.bill.config.BillProto.internal_static_DB_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return top.carljung.bill.config.BillProto.internal_static_DB_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                top.carljung.bill.config.BillProto.DB.class, top.carljung.bill.config.BillProto.DB.Builder.class);
+      }
+
+      // Construct using top.carljung.bill.config.BillProto.DB.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        url_ = "";
+
+        driver_ = "";
+
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return top.carljung.bill.config.BillProto.internal_static_DB_descriptor;
+      }
+
+      public top.carljung.bill.config.BillProto.DB getDefaultInstanceForType() {
+        return top.carljung.bill.config.BillProto.DB.getDefaultInstance();
+      }
+
+      public top.carljung.bill.config.BillProto.DB build() {
+        top.carljung.bill.config.BillProto.DB result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public top.carljung.bill.config.BillProto.DB buildPartial() {
+        top.carljung.bill.config.BillProto.DB result = new top.carljung.bill.config.BillProto.DB(this);
+        result.url_ = url_;
+        result.driver_ = driver_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof top.carljung.bill.config.BillProto.DB) {
+          return mergeFrom((top.carljung.bill.config.BillProto.DB)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(top.carljung.bill.config.BillProto.DB other) {
+        if (other == top.carljung.bill.config.BillProto.DB.getDefaultInstance()) return this;
+        if (!other.getUrl().isEmpty()) {
+          url_ = other.url_;
+          onChanged();
+        }
+        if (!other.getDriver().isEmpty()) {
+          driver_ = other.driver_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        top.carljung.bill.config.BillProto.DB parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (top.carljung.bill.config.BillProto.DB) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private java.lang.Object url_ = "";
+      /**
+       * <code>string url = 1;</code>
+       */
+      public java.lang.String getUrl() {
+        java.lang.Object ref = url_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          url_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string url = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getUrlBytes() {
+        java.lang.Object ref = url_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          url_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string url = 1;</code>
+       */
+      public Builder setUrl(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        url_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string url = 1;</code>
+       */
+      public Builder clearUrl() {
+        
+        url_ = getDefaultInstance().getUrl();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string url = 1;</code>
+       */
+      public Builder setUrlBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        url_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object driver_ = "";
+      /**
+       * <code>string driver = 2;</code>
+       */
+      public java.lang.String getDriver() {
+        java.lang.Object ref = driver_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          driver_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string driver = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getDriverBytes() {
+        java.lang.Object ref = driver_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          driver_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string driver = 2;</code>
+       */
+      public Builder setDriver(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        driver_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string driver = 2;</code>
+       */
+      public Builder clearDriver() {
+        
+        driver_ = getDefaultInstance().getDriver();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string driver = 2;</code>
+       */
+      public Builder setDriverBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        driver_ = value;
+        onChanged();
+        return this;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:DB)
+    }
+
+    // @@protoc_insertion_point(class_scope:DB)
+    private static final top.carljung.bill.config.BillProto.DB DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new top.carljung.bill.config.BillProto.DB();
+    }
+
+    public static top.carljung.bill.config.BillProto.DB getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<DB>
+        PARSER = new com.google.protobuf.AbstractParser<DB>() {
+      public DB parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new DB(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<DB> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<DB> getParserForType() {
+      return PARSER;
+    }
+
+    public top.carljung.bill.config.BillProto.DB getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -2183,6 +3039,11 @@ public final class BillProto {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_Config_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_DB_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_DB_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Server_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -2201,12 +3062,13 @@ public final class BillProto {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\014config.proto\"2\n\006Config\022\017\n\002wx\030\001 \001(\0132\003.W" +
-      "X\022\027\n\006server\030\002 \001(\0132\007.Server\"5\n\006Server\022\017\n\007" +
-      "docRoot\030\001 \001(\t\022\014\n\004port\030\002 \001(\005\022\014\n\004salt\030\003 \001(" +
-      "\t\"#\n\002WX\022\r\n\005appId\030\001 \001(\t\022\016\n\006secret\030\002 \001(\tB%" +
-      "\n\030top.carljung.bill.configB\tBillProtob\006p" +
-      "roto3"
+      "\n\014config.proto\"C\n\006Config\022\017\n\002wx\030\001 \001(\0132\003.W" +
+      "X\022\027\n\006server\030\002 \001(\0132\007.Server\022\017\n\002db\030\003 \001(\0132\003" +
+      ".DB\"!\n\002DB\022\013\n\003url\030\001 \001(\t\022\016\n\006driver\030\002 \001(\t\"5" +
+      "\n\006Server\022\017\n\007docRoot\030\001 \001(\t\022\014\n\004port\030\002 \001(\005\022" +
+      "\014\n\004salt\030\003 \001(\t\"#\n\002WX\022\r\n\005appId\030\001 \001(\t\022\016\n\006se" +
+      "cret\030\002 \001(\tB%\n\030top.carljung.bill.configB\t" +
+      "BillProtob\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -2225,15 +3087,21 @@ public final class BillProto {
     internal_static_Config_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Config_descriptor,
-        new java.lang.String[] { "Wx", "Server", });
-    internal_static_Server_descriptor =
+        new java.lang.String[] { "Wx", "Server", "Db", });
+    internal_static_DB_descriptor =
       getDescriptor().getMessageTypes().get(1);
+    internal_static_DB_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_DB_descriptor,
+        new java.lang.String[] { "Url", "Driver", });
+    internal_static_Server_descriptor =
+      getDescriptor().getMessageTypes().get(2);
     internal_static_Server_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Server_descriptor,
         new java.lang.String[] { "DocRoot", "Port", "Salt", });
     internal_static_WX_descriptor =
-      getDescriptor().getMessageTypes().get(2);
+      getDescriptor().getMessageTypes().get(3);
     internal_static_WX_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_WX_descriptor,
