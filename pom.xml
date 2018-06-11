@@ -52,6 +52,11 @@
             <artifactId>commons-codec</artifactId>
             <version>1.11</version>
         </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.11</version>
+        </dependency>
         <!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
         <dependency>
             <groupId>com.google.code.gson</groupId>
@@ -170,7 +175,7 @@
                 <archive>  
                     <manifest>  
                         <!-- 主函数的入口 -->  
-                        <mainClass>top.carljung.bill.server.ServerMain</mainClass>  
+                        <mainClass>top.carljung.bill.server.ServerStarter</mainClass>  
                         <!-- 打包时 MANIFEST.MF文件不记录的时间戳版本 -->  
                         <useUniqueVersions>false</useUniqueVersions>  
                         <addClasspath>true</addClasspath>  

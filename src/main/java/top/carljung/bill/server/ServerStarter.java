@@ -3,6 +3,8 @@ package top.carljung.bill.server;
 import java.io.IOException;
 import java.net.URI;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import liquibase.exception.LiquibaseException;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.grizzly.http.server.ServerConfiguration;
@@ -21,6 +23,13 @@ public class ServerStarter {
     private static final org.slf4j.Logger logger = LoggerFactory.getLogger(ServerStarter.class);
     
     public static void main(String[] args){
+        ServerStarter starter = new ServerStarter();
+        try {
+            starter.init();
+        } catch (IOException | LiquibaseException | SQLException ex) {
+            logger.warn("server start fail", ex);
+            System.exit(1);
+        }
         BillProto.Server serverConfig = Configuration.instance.getServerConfig();
         int port = serverConfig.getPort();
         final URI BASE_URI = URI.create("http://0.0.0.0:" + port + "/");
@@ -35,11 +44,9 @@ public class ServerStarter {
         
         
         try {
-            ServerStarter starter = new ServerStarter();
-            starter.init();
             server.start();
-        } catch (IOException | LiquibaseException | SQLException ex) {
-            logger.warn("server fail", ex);
+        } catch (IOException ex) {
+            logger.warn("server start fail", ex);
             System.exit(1);
         }
     }

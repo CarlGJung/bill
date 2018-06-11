@@ -14,9 +14,9 @@ message DB{
 }
 
 message Server{
-    require string docRoot = 1;
-    require int32 port = 2;
-            string salt = 3;
+    string docRoot = 1;
+    int32 port = 2;
+    string salt = 3;
 }
 
 message WX{
