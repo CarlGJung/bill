@@ -1,5 +1,9 @@
 package top.carljung.bill.server;
 
+import ch.qos.logback.classic.LoggerContext;
+import ch.qos.logback.classic.joran.JoranConfigurator;
+import ch.qos.logback.core.joran.spi.JoranException;
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.sql.SQLException;
@@ -20,17 +24,16 @@ import top.carljung.bill.db.LiquibaseInit;
  * @author wangchao
  */
 public class ServerStarter {
-    private static final org.slf4j.Logger logger = LoggerFactory.getLogger(ServerStarter.class);
+    private static org.slf4j.Logger logger = LoggerFactory.getLogger(ServerStarter.class);;
+    private ServerStarter(){
+    }
     
     public static void main(String[] args){
         ServerStarter starter = new ServerStarter();
-        try {
-            starter.init();
-        } catch (IOException | LiquibaseException | SQLException ex) {
-            logger.warn("server start fail", ex);
-            System.exit(1);
-        }
+        starter.init();
+        
         BillProto.Server serverConfig = Configuration.instance.getServerConfig();
+       
         int port = serverConfig.getPort();
         final URI BASE_URI = URI.create("http://0.0.0.0:" + port + "/");
         final HttpServer server = GrizzlyHttpServerFactory.createHttpServer(BASE_URI,
@@ -41,8 +44,6 @@ public class ServerStarter {
         staticHandler.setFileCacheEnabled(false);
         config.addHttpHandler(staticHandler, "/static");
         Runtime.getRuntime().addShutdownHook(new Thread(server::shutdownNow));
-        
-        
         try {
             server.start();
         } catch (IOException ex) {
@@ -51,8 +52,27 @@ public class ServerStarter {
         }
     }
     
-    public void init() throws IOException, LiquibaseException, SQLException{
-        Configuration.instance.readConfig();
-        new LiquibaseInit().init();
+    public void init(){
+        try {
+            Configuration.instance.readConfig();
+            new LiquibaseInit().init();
+            reConfigLogback();
+        } catch (IOException | LiquibaseException | SQLException ex) {
+            logger.warn("server start fail", ex);
+            System.exit(1);
+        } catch (JoranException ex) {
+            logger.warn("reset logback configuartion file fail", ex);
+            System.exit(1);
+        }
+    }
+    
+    //对此方法的调用应该放在后面，有些框架（比如liquibase）会重写logbcak配置
+    public void reConfigLogback() throws JoranException{
+        LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
+        JoranConfigurator configurator = new JoranConfigurator();
+        BillProto.Server serverConfig = Configuration.instance.getServerConfig();
+        configurator.setContext(loggerContext);
+        loggerContext.reset();
+        configurator.doConfigure(new File(serverConfig.getLogback())); // loads logback file
     }
 }

@@ -17,6 +17,7 @@ message Server{
     string docRoot = 1;
     int32 port = 2;
     string salt = 3;
+    string logback = 4;
 }
 
 message WX{
