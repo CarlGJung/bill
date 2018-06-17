@@ -21,7 +21,6 @@ public class SecurityRequestFilter implements ContainerRequestFilter{
     private static final Logger logger = LoggerFactory.getLogger(SecurityRequestFilter.class);
     @Override
     public void filter(ContainerRequestContext crc) throws IOException {
-        logger.debug("Handle request: " + crc.getUriInfo().getAbsolutePath().toString());
         crc.setSecurityContext(new SecurityContext(){
             @Override
             public Principal getUserPrincipal() {

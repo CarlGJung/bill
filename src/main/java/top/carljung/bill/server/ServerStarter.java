@@ -7,8 +7,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import liquibase.exception.LiquibaseException;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.grizzly.http.server.ServerConfiguration;
@@ -43,6 +41,7 @@ public class ServerStarter {
         StaticHttpHandler staticHandler = new StaticHttpHandler(docRoot + "/static");
         staticHandler.setFileCacheEnabled(false);
         config.addHttpHandler(staticHandler, "/static");
+        config.getMonitoringConfig().getWebServerConfig().addProbes(new AccessLogger());
         Runtime.getRuntime().addShutdownHook(new Thread(server::shutdownNow));
         try {
             server.start();
@@ -74,5 +73,5 @@ public class ServerStarter {
         configurator.setContext(loggerContext);
         loggerContext.reset();
         configurator.doConfigure(new File(serverConfig.getLogback())); // loads logback file
-    }
+    }    
 }
