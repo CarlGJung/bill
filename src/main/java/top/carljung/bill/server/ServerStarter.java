@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import top.carljung.bill.config.BillProto;
 import top.carljung.bill.config.Configuration;
 import top.carljung.bill.db.LiquibaseInit;
+import top.carljung.bill.server.handler.UploadHandler;
 
 /**
  *
@@ -41,6 +42,7 @@ public class ServerStarter {
         StaticHttpHandler staticHandler = new StaticHttpHandler(docRoot + "/static");
         staticHandler.setFileCacheEnabled(false);
         config.addHttpHandler(staticHandler, "/static");
+        config.addHttpHandler(new UploadHandler(), "/upload");
         config.getMonitoringConfig().getWebServerConfig().addProbes(new AccessLogger());
         Runtime.getRuntime().addShutdownHook(new Thread(server::shutdownNow));
         try {

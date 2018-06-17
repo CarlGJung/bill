@@ -27,12 +27,30 @@ public class Configuration {
     public BillProto.DB getDBConfig(){
         return getConfig().getDb();
     }
+    
     public BillProto.WX getWXConfig(){
         return getConfig().getWx();
     }
     
     public BillProto.Server getServerConfig(){
         return getConfig().getServer();
+    }
+    
+    public String getFileStorePath(){
+        String storePath = getServerConfig().getStore();
+        File store = new File(storePath);
+        if (!store.exists()) {
+            store.mkdir();
+        }
+        String subPath = "file/";
+        String fileStorePath = storePath.endsWith("/") 
+                ? (storePath + subPath)
+                : (storePath + "/" + subPath);
+        File fileStore = new File(fileStorePath);
+        if (!fileStore.exists()) {
+            fileStore.mkdir();
+        }
+        return  fileStorePath;
     }
     
     public void readConfig() throws FileNotFoundException, IOException{

@@ -18,6 +18,7 @@ message Server{
     int32 port = 2;
     string salt = 3;
     string logback = 4;
+    string store = 5;
 }
 
 message WX{
