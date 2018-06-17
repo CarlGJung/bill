@@ -31,7 +31,7 @@ public class AccessLogger extends HttpServerProbe.Adapter{
         requestReceiveTime = requestReceiveTime == null
                         ?   requestCompleteTime
                         :   requestReceiveTime;
-        long responseTime = requestReceiveTime - requestCompleteTime;
+        long responseTime = requestCompleteTime - requestReceiveTime;
         logAccess(response, requestReceiveTime, responseTime);
     }
 
@@ -40,6 +40,7 @@ public class AccessLogger extends HttpServerProbe.Adapter{
         String requestReceiveDate = dateFormat.format(new Date(requestReceiveTime));
         Request request = response.getRequest();
         String url = request.getRequestURL().toString();
-        logger.info(requestReceiveDate + " " + responseTime + "ms " + url);
+        int status = response.getStatus();
+        logger.info(requestReceiveDate + " " + responseTime + "ms " + status + " "+ url);
     }
 }
