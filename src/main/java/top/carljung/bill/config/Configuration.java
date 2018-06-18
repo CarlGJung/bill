@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import top.carljung.bill.proto.ConfigStore;
 
 /**
  *
@@ -15,24 +16,24 @@ import org.slf4j.LoggerFactory;
 public class Configuration {
     private static final Logger logger = LoggerFactory.getLogger(Configuration.class);
     public static final Configuration instance = new Configuration();
-    private BillProto.Config config;
+    private ConfigStore.Config config;
     
     private Configuration(){
     }
     
-    public BillProto.Config getConfig(){
+    public ConfigStore.Config getConfig(){
         return config;
     }
     
-    public BillProto.DB getDBConfig(){
+    public ConfigStore.DB getDBConfig(){
         return getConfig().getDb();
     }
     
-    public BillProto.WX getWXConfig(){
+    public ConfigStore.WX getWXConfig(){
         return getConfig().getWx();
     }
     
-    public BillProto.Server getServerConfig(){
+    public ConfigStore.Server getServerConfig(){
         return getConfig().getServer();
     }
     
@@ -56,7 +57,7 @@ public class Configuration {
     public void readConfig() throws FileNotFoundException, IOException{
         JsonFormat jsonFormat = new JsonFormat();
         File configJson = new File("config/config.json");
-        BillProto.Config.Builder configBuilder = BillProto.Config.newBuilder();
+        ConfigStore.Config.Builder configBuilder = ConfigStore.Config.newBuilder();
         jsonFormat.merge(new FileInputStream(configJson), configBuilder);
         config = configBuilder.build();
     }

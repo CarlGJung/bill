@@ -1,6 +1,6 @@
 syntax="proto2";
-option java_package="top.carljung.bill.config";
-option java_outer_classname="BillProto";
+option java_package="top.carljung.bill.proto";
+option java_outer_classname="ConfigStore";
 
 message Config{
     optional WX wx = 1;

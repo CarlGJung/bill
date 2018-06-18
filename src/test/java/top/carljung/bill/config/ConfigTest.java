@@ -5,10 +5,10 @@ import com.googlecode.protobuf.format.JsonFormat;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.junit.Test;
+import top.carljung.bill.proto.ConfigStore;
 
 /**
  *
@@ -20,7 +20,7 @@ public class ConfigTest {
         try {
             JsonFormat jsonFormat = new JsonFormat();
             File configJson = new File("config/config.json");
-            BillProto.Config.Builder config = BillProto.Config.newBuilder();
+            ConfigStore.Config.Builder config = ConfigStore.Config.newBuilder();
             jsonFormat.merge(new FileInputStream(configJson), config);
             config.getWx().getAppId();
         } catch (IOException ex) {

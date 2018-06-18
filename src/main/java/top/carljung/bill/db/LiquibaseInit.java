@@ -13,8 +13,8 @@ import liquibase.resource.ClassLoaderResourceAccessor;
 import liquibase.resource.ResourceAccessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import top.carljung.bill.config.BillProto;
 import top.carljung.bill.config.Configuration;
+import top.carljung.bill.proto.ConfigStore;
 
 /**
  *
@@ -26,7 +26,7 @@ public class LiquibaseInit {
     public void init() throws LiquibaseException, SQLException{
         String dbFile = "db.xml";
         ResourceAccessor resourceAccessor = new ClassLoaderResourceAccessor(getClass().getClassLoader());
-        BillProto.DB dbConfig = Configuration.instance.getDBConfig();
+        ConfigStore.DB dbConfig = Configuration.instance.getDBConfig();
         String url = dbConfig.getUrl();
         Properties properties = new Properties();
         properties.setProperty("driver", dbConfig.getDriver());

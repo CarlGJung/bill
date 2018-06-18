@@ -17,10 +17,10 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import org.apache.commons.lang3.StringUtils;
 import org.glassfish.grizzly.http.server.Request;
-import top.carljung.bill.config.BillProto;
 import top.carljung.bill.config.Configuration;
 import top.carljung.bill.factory.SessionFactory;
 import top.carljung.bill.pojo.WXLoginResponse;
+import top.carljung.bill.proto.ConfigStore;
 import top.carljung.bill.server.Session;
 
 /**
@@ -34,7 +34,7 @@ public class WeChatServices {
     @GET
     @Path("/login/{jsCode}")
     public Response login(@PathParam("jsCode") String jsCode, @Context Request req){
-        BillProto.WX wxConfig = Configuration.instance.getWXConfig();
+        ConfigStore.WX wxConfig = Configuration.instance.getWXConfig();
         String appId = wxConfig.getAppId();
         String secret = wxConfig.getSecret();
         

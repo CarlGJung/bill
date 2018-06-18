@@ -7,8 +7,8 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.glassfish.grizzly.http.Cookie;
 import org.glassfish.grizzly.http.server.Request;
-import top.carljung.bill.config.BillProto;
 import top.carljung.bill.config.Configuration;
+import top.carljung.bill.proto.ConfigStore;
 import top.carljung.bill.server.Session;
 
 /**
@@ -84,7 +84,7 @@ public class SessionFactory {
         if (StringUtils.isBlank(sessionId)) {
             sessionId = String.valueOf(System.currentTimeMillis() + Math.random());
         }
-        BillProto.Server serverConfig = Configuration.instance.getServerConfig();
+        ConfigStore.Server serverConfig = Configuration.instance.getServerConfig();
         String salt = serverConfig.getSalt();
         return DigestUtils.sha1Hex(salt + sessionId);
     }

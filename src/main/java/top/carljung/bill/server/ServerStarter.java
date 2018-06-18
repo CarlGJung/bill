@@ -13,9 +13,9 @@ import org.glassfish.grizzly.http.server.ServerConfiguration;
 import org.glassfish.grizzly.http.server.StaticHttpHandler;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.slf4j.LoggerFactory;
-import top.carljung.bill.config.BillProto;
 import top.carljung.bill.config.Configuration;
 import top.carljung.bill.db.LiquibaseInit;
+import top.carljung.bill.proto.ConfigStore;
 import top.carljung.bill.server.handler.UploadHandler;
 
 /**
@@ -31,7 +31,7 @@ public class ServerStarter {
         ServerStarter starter = new ServerStarter();
         starter.init();
         
-        BillProto.Server serverConfig = Configuration.instance.getServerConfig();
+        ConfigStore.Server serverConfig = Configuration.instance.getServerConfig();
        
         int port = serverConfig.getPort();
         final URI BASE_URI = URI.create("http://0.0.0.0:" + port + "/");
@@ -71,7 +71,7 @@ public class ServerStarter {
     public void reConfigLogback() throws JoranException{
         LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
         JoranConfigurator configurator = new JoranConfigurator();
-        BillProto.Server serverConfig = Configuration.instance.getServerConfig();
+        ConfigStore.Server serverConfig = Configuration.instance.getServerConfig();
         configurator.setContext(loggerContext);
         loggerContext.reset();
         configurator.doConfigure(new File(serverConfig.getLogback())); // loads logback file
