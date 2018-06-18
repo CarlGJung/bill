@@ -1,27 +1,27 @@
-syntax="proto3";
+syntax="proto2";
 option java_package="top.carljung.bill.config";
 option java_outer_classname="BillProto";
 
 message Config{
-    WX wx = 1;
-    Server server = 2;
-    DB db = 3;
+    optional WX wx = 1;
+    required Server server = 2;
+    required DB db = 3;
 }
 
 message DB{
-    string url = 1;
-    string driver = 2;
+    required string url = 1;
+    required string driver = 2;
 }
 
 message Server{
-    string docRoot = 1;
-    int32 port = 2;
-    string salt = 3;
-    string logback = 4;
-    string store = 5;
+    required string docRoot = 1;
+    optional int32 port = 2 [default=18080];
+    optional string salt = 3;
+    optional string logback = 4 [default="config/logback.xml"];
+    optional string store = 5 [default="store"];
 }
 
 message WX{
-    string appId = 1;
-    string secret = 2;
+    required string appId = 1;
+    required string secret = 2;
 }
