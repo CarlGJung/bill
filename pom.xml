@@ -159,6 +159,9 @@
                         <exec executable="protoc" dir="./src/main/resources">
                             <arg line="--java_out=../java @java_protos"/>
                         </exec>
+                        <exec executable="pbjs" dir="./src/main/resources">
+                            <arg line="-t static-module -r structure --force-long --force-message --no-comments  structure.proto -o structure.js"/>
+                        </exec>
                     </target>
                   </configuration>
                 <goals>
