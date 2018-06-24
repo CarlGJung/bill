@@ -39,9 +39,9 @@ public class ServerStarter {
                     new Application(), false);
         final ServerConfiguration config = server.getServerConfiguration();
         String docRoot = serverConfig.getDocRoot();
-        StaticHttpHandler staticHandler = new StaticHttpHandler(docRoot + "/static");
+        StaticHttpHandler staticHandler = new StaticHttpHandler(docRoot + "/www");
         staticHandler.setFileCacheEnabled(false);
-        config.addHttpHandler(staticHandler, "/static");
+        config.addHttpHandler(staticHandler, "/www");
         config.addHttpHandler(new UploadHandler(), "/upload");
         config.getMonitoringConfig().getWebServerConfig().addProbes(new AccessLogger());
         Runtime.getRuntime().addShutdownHook(new Thread(server::shutdownNow));
