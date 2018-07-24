@@ -10,6 +10,6 @@ import org.glassfish.jersey.server.ResourceConfig;
 @ApplicationPath("/")
 public class Application extends ResourceConfig{
     public Application(){
-        packages("top.carljung.bill.server.filters","top.carljung.bill.server.services");
+        packages("top.carljung.bill.jersey","top.carljung.bill.server.filters","top.carljung.bill.server.services");
     }
 }
