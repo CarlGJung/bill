@@ -14,6 +14,7 @@ import org.glassfish.grizzly.http.server.StaticHttpHandler;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.slf4j.LoggerFactory;
 import top.carljung.bill.config.Configuration;
+import top.carljung.bill.db.DBFactory;
 import top.carljung.bill.db.LiquibaseInit;
 import top.carljung.bill.proto.ConfigStore;
 import top.carljung.bill.server.handler.UploadHandler;
@@ -57,6 +58,7 @@ public class ServerStarter {
         try {
             Configuration.instance.readConfig();
             new LiquibaseInit().init();
+            DBFactory.init();
             reConfigLogback();
         } catch (IOException | LiquibaseException | SQLException ex) {
             logger.warn("server start fail", ex);

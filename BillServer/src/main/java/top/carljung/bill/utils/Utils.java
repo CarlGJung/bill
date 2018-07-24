@@ -1,6 +1,9 @@
 package top.carljung.bill.utils;
 
 import java.text.DecimalFormat;
+import org.apache.commons.codec.digest.DigestUtils;
+import top.carljung.bill.config.Configuration;
+import top.carljung.bill.proto.ConfigStore;
 
 /**
  *
@@ -25,5 +28,11 @@ public class Utils {
         } else {
             return formater.format(size / TB) + "TB";
         }
+    }
+    
+    public static String sha1Hex(String str){
+        ConfigStore.Server serverConfig = Configuration.instance.getServerConfig();
+        String salt = serverConfig.getSalt();
+        return DigestUtils.sha1Hex(salt + str);
     }
 }

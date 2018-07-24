@@ -9,10 +9,11 @@ import top.carljung.bill.pojo.WXLoginResponse;
  *
  * @author wangchao
  */
-@Table("user")
+@Table("users")
 public class User extends Model{
     public static final String ID = "id";
     public static final String NAME = "name";
+    public static final String PASS_WORD = "password";
     public static final String STATUS = "status";
     public static final String EXTERNAL_ID = "external_id";
     public static final String DN = "dn";
@@ -27,6 +28,12 @@ public class User extends Model{
     }
     public String getName(){
         return getString(NAME);
+    }
+    public void setPassword(String password){
+        setString(PASS_WORD, password);
+    }
+    public String getPassword(){
+        return getString(PASS_WORD);
     }
     public String getExternalId(){
         return getString(EXTERNAL_ID);
@@ -58,5 +65,9 @@ public class User extends Model{
             }
         }
         return user;
+    }
+    
+    public static boolean isUserExist(String username){
+        return User.count(" name = ?", username) > 0;
     }
 }

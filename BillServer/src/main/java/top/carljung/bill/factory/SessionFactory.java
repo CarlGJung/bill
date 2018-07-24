@@ -10,6 +10,7 @@ import org.glassfish.grizzly.http.server.Request;
 import top.carljung.bill.config.Configuration;
 import top.carljung.bill.proto.ConfigStore;
 import top.carljung.bill.server.Session;
+import top.carljung.bill.utils.Utils;
 
 /**
  *
@@ -84,8 +85,6 @@ public class SessionFactory {
         if (StringUtils.isBlank(sessionId)) {
             sessionId = String.valueOf(System.currentTimeMillis() + Math.random());
         }
-        ConfigStore.Server serverConfig = Configuration.instance.getServerConfig();
-        String salt = serverConfig.getSalt();
-        return DigestUtils.sha1Hex(salt + sessionId);
+        return Utils.sha1Hex(sessionId);
     }
 }
