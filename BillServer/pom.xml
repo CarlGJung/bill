@@ -148,6 +148,20 @@
     
     <build>
      <plugins>
+        <!--http://javalite.io/instrumentation-->
+        <plugin>
+            <groupId>org.javalite</groupId>
+            <artifactId>activejdbc-instrumentation</artifactId>
+            <version>2.0</version>
+            <executions>
+                <execution>
+                    <phase>process-classes</phase>
+                    <goals>
+                        <goal>instrument</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
         <plugin>
             <artifactId>maven-antrun-plugin</artifactId>
             <version>1.8</version>
@@ -160,7 +174,7 @@
                             <arg line="--java_out=../java @java_protos"/>
                         </exec>
                         <exec executable="pbjs" dir="./src/main/resources">
-                            <arg line="-t static-module -r structure --force-long --force-message --no-comments  structure.proto -o structure.js"/>
+                            <arg line="-t json-module -r pbStore -w es6 --force-long --force-message --no-comments  structure.proto -o structure.js"/>
                         </exec>
                     </target>
                   </configuration>

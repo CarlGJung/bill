@@ -2,6 +2,12 @@ syntax="proto3";
 option java_package="top.carljung.bill.proto";
 option java_outer_classname="StructureStore";
 
+message User{
+    int32 userId = 1;
+    string username = 2;
+    string password = 3;
+}
+
 enum BillType{
     DEFAULT = 0;
     INCOME = 1;
