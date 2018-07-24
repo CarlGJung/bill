@@ -42,6 +42,7 @@ public class AccessLogger extends HttpServerProbe.Adapter{
         String url = request.getRequestURL().toString();
         int status = response.getStatus();
         String remoteAddr = request.getRemoteAddr();
-        logger.info(requestReceiveDate + " " + remoteAddr + " " + responseTime + "ms " + status + " "+ url);
+        String userAgent = request.getHeader("User-Agent");
+        logger.info(requestReceiveDate + " " + remoteAddr + " " + responseTime + "ms " + status + " "+ url + " " + userAgent);
     }
 }
