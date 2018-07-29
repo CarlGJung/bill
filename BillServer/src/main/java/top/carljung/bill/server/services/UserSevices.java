@@ -5,8 +5,6 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
 import org.apache.commons.lang3.StringUtils;
-import org.javalite.activejdbc.DB;
-import top.carljung.bill.db.DBFactory;
 import top.carljung.bill.db.User;
 import top.carljung.bill.proto.StructureStore;
 import top.carljung.bill.server.MediaType;
