@@ -27,12 +27,10 @@ public class UserSevices {
         String password = user.getPassword();
         
         if (StringUtils.isNoneBlank(username) && StringUtils.isNotBlank(password)) {
-            try (DB db = DBFactory.open()) {
-                if (!User.isUserExist(username)) {
-                    User newUser = User.create("name", username, "password", Utils.sha1Hex(password));
-                    newUser.saveIt();
-                    return Response.ok().build();
-                }
+            if (!User.isUserExist(username)) {
+                User newUser = User.create("name", username, "password", Utils.sha1Hex(password));
+                newUser.saveIt();
+                return Response.ok().build();
             }
         }
         return Response.serverError().build();

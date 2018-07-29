@@ -1,5 +1,6 @@
 package top.carljung.bill.server;
 
+import top.carljung.bill.server.probe.AccessLoggerProbe;
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.joran.JoranConfigurator;
 import ch.qos.logback.core.joran.spi.JoranException;
@@ -11,7 +12,6 @@ import liquibase.exception.LiquibaseException;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.grizzly.http.server.ServerConfiguration;
 import org.glassfish.grizzly.http.server.StaticHttpHandler;
-import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.slf4j.LoggerFactory;
 import top.carljung.bill.config.Configuration;
 import top.carljung.bill.db.DBFactory;
@@ -36,15 +36,15 @@ public class ServerStarter {
        
         int port = serverConfig.getPort();
         final URI BASE_URI = URI.create("http://0.0.0.0:" + port + "/");
-        final HttpServer server = GrizzlyHttpServerFactory.createHttpServer(BASE_URI,
-                    new Application(), false);
+        final HttpServer server = GrizzlyHttpServerFactory2.createHttpServer(BASE_URI,
+                    new GrizzlyHttpContainer2(new Application()), false, null, false);
         final ServerConfiguration config = server.getServerConfiguration();
         String docRoot = serverConfig.getDocRoot();
         StaticHttpHandler staticHandler = new StaticHttpHandler(docRoot + "/www");
         staticHandler.setFileCacheEnabled(false);
         config.addHttpHandler(staticHandler, "/www");
         config.addHttpHandler(new UploadHandler(), "/upload");
-        config.getMonitoringConfig().getWebServerConfig().addProbes(new AccessLogger());
+        config.getMonitoringConfig().getWebServerConfig().addProbes(new AccessLoggerProbe());
         Runtime.getRuntime().addShutdownHook(new Thread(server::shutdownNow));
         try {
             server.start();

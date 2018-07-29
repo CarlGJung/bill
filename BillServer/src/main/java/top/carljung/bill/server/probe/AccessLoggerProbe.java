@@ -1,4 +1,4 @@
-package top.carljung.bill.server;
+package top.carljung.bill.server.probe;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -14,9 +14,9 @@ import org.slf4j.LoggerFactory;
  *
  * @author wangchao
  */
-public class AccessLogger extends HttpServerProbe.Adapter{
-    public static final Logger logger = LoggerFactory.getLogger(AccessLogger.class);
-    public static final String REQUEST_RECEIVE_TIME = AccessLogger.class.getName() + ".requestReceiveTime";
+public class AccessLoggerProbe extends HttpServerProbe.Adapter{
+    public static final Logger logger = LoggerFactory.getLogger(AccessLoggerProbe.class);
+    public static final String REQUEST_RECEIVE_TIME = AccessLoggerProbe.class.getName() + ".requestReceiveTime";
             
     @Override
     public void onRequestReceiveEvent(HttpServerFilter filter, Connection connection, Request request) {
