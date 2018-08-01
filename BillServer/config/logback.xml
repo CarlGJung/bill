@@ -39,7 +39,7 @@
     </encoder>
   </appender>
 
-  <logger name="top.carljung.bill.server.AccessLogger" additivity="false">
+  <logger name="top.carljung.bill.server.probe.AccessLoggerProbe" additivity="false">
     <appender-ref ref="ACCESS" />
   </logger>
 

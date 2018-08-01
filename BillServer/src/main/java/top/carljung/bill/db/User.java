@@ -4,6 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.javalite.activejdbc.Model;
 import org.javalite.activejdbc.annotations.Table;
 import top.carljung.bill.pojo.WXLoginResponse;
+import top.carljung.bill.utils.Utils;
 
 /**
  *
@@ -69,5 +70,9 @@ public class User extends Model{
     
     public static boolean isUserExist(String username){
         return User.count(" name = ?", username) > 0;
+    }
+    
+    public static User getUser(String username, String password){
+        return User.findFirst("name = ? AND password = ?", username, Utils.sha1Hex(password));
     }
 }

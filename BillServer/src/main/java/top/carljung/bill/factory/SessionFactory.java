@@ -3,12 +3,10 @@ package top.carljung.bill.factory;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.ws.rs.container.ContainerRequestContext;
-import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.glassfish.grizzly.http.Cookie;
 import org.glassfish.grizzly.http.server.Request;
-import top.carljung.bill.config.Configuration;
-import top.carljung.bill.proto.ConfigStore;
+import top.carljung.bill.db.User;
 import top.carljung.bill.server.Session;
 import top.carljung.bill.utils.Utils;
 
@@ -35,6 +33,13 @@ public class SessionFactory {
         
         return sessionFactory;
     }
+    
+    public Session createSession(User user){
+        Session session =  new Session(generatorSessionId(), user.getUserId());
+        sessions.put(session.getId(), session);
+        return session;
+    }
+    
     public Session getSession(Request request){
         String sessionId = null;
         
@@ -46,7 +51,7 @@ public class SessionFactory {
             }
         }
         
-        return getSession(sessionId, true);
+        return sessions.get(sessionId);
     }
     
     public Session getSession(ContainerRequestContext crc){
@@ -64,27 +69,11 @@ public class SessionFactory {
                 sessionId = cookie.getValue();
             }
         }
-        return getSession(sessionId, false);
-    }
-    private Session getSession(String sessionId, boolean createIfNull) {
-        Session session = sessions.get(sessionId);
-        
-        if (createIfNull && (session == null || !session.isAlive())) {
-            sessionId = generatorSessionId();
-            session = new Session(sessionId);
-            sessions.put(sessionId, session);
-        }
-       
-        return session;
+        return sessions.get(sessionId);
     }
 
     private String generatorSessionId(){
-        return generatorSessionId(null);
-    }
-    private String generatorSessionId(String sessionId){
-        if (StringUtils.isBlank(sessionId)) {
-            sessionId = String.valueOf(System.currentTimeMillis() + Math.random());
-        }
+        String sessionId = Long.toString(System.currentTimeMillis()) + Double.toString(Math.random());
         return Utils.sha1Hex(sessionId);
     }
 }

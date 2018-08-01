@@ -50,8 +50,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.GenericType;
@@ -63,7 +61,6 @@ import javax.inject.Provider;
 import org.glassfish.jersey.grizzly2.httpserver.internal.LocalizationMessages;
 import org.glassfish.jersey.internal.inject.AbstractBinder;
 import org.glassfish.jersey.internal.inject.ReferencingFactory;
-import org.glassfish.jersey.internal.util.ExtendedLogger;
 import org.glassfish.jersey.internal.util.collection.Ref;
 import org.glassfish.jersey.process.internal.RequestScoped;
 import org.glassfish.jersey.server.ApplicationHandler;
@@ -81,6 +78,8 @@ import org.glassfish.grizzly.http.server.HttpHandler;
 import org.glassfish.grizzly.http.server.Request;
 import org.glassfish.grizzly.http.server.Response;
 import org.javalite.activejdbc.DB;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import top.carljung.bill.db.DBFactory;
 
 /**
@@ -92,8 +91,7 @@ import top.carljung.bill.db.DBFactory;
  */
 public final class GrizzlyHttpContainer2 extends HttpHandler implements Container {
 
-    private static final ExtendedLogger logger =
-            new ExtendedLogger(Logger.getLogger(GrizzlyHttpContainer2.class.getName()), Level.FINEST);
+    private static final Logger logger = LoggerFactory.getLogger(GrizzlyHttpContainer2.class);
 
     private final Type RequestTYPE = (new GenericType<Ref<Request>>() { }).getType();
     private final Type ResponseTYPE = (new GenericType<Ref<Response>>() { }).getType();
@@ -193,10 +191,10 @@ public final class GrizzlyHttpContainer2 extends HttpHandler implements Containe
             this.grizzlyResponse = response;
             this.configSetStatusOverSendError = configSetStatusOverSendError;
 
-            if (logger.isDebugLoggable()) {
+            if (logger.isDebugEnabled()) {
                 this.name = "ResponseWriter {" + "id=" + UUID.randomUUID().toString() + ", grizzlyResponse="
                         + grizzlyResponse.hashCode() + '}';
-                logger.debugLog("{0} - init", name);
+                logger.debug("{} - init", name);
             } else {
                 this.name = "ResponseWriter";
             }
@@ -214,7 +212,7 @@ public final class GrizzlyHttpContainer2 extends HttpHandler implements Containe
                     grizzlyResponse.resume();
                 }
             } finally {
-                logger.debugLog("{0} - commit() called", name);
+                logger.debug("{} - commit() called", name);
             }
         }
 
@@ -240,7 +238,7 @@ public final class GrizzlyHttpContainer2 extends HttpHandler implements Containe
             } catch (final IllegalStateException ex) {
                 return false;
             } finally {
-                logger.debugLog("{0} - suspend(...) called", name);
+                logger.debug("{} - suspend(...) called", name);
             }
         }
 
@@ -249,7 +247,7 @@ public final class GrizzlyHttpContainer2 extends HttpHandler implements Containe
             try {
                 grizzlyResponse.getSuspendContext().setTimeout(timeOut, timeUnit);
             } finally {
-                logger.debugLog("{0} - setTimeout(...) called", name);
+                logger.debug("{} - setTimeout(...) called", name);
             }
         }
 
@@ -275,7 +273,7 @@ public final class GrizzlyHttpContainer2 extends HttpHandler implements Containe
 
                 return grizzlyResponse.getOutputStream();
             } finally {
-                logger.debugLog("{0} - writeResponseStatusAndHeaders() called", name);
+                logger.debug("{} - writeResponseStatusAndHeaders() called", name);
             }
         }
 
@@ -293,7 +291,7 @@ public final class GrizzlyHttpContainer2 extends HttpHandler implements Containe
                         }
                     } catch (final IllegalStateException ex) {
                         // a race condition externally committing the response can still occur...
-                        logger.log(Level.FINER, "Unable to reset failed response.", ex);
+                        logger.error("Unable to reset failed response.", ex);
                     } catch (final IOException ex) {
                         throw new ContainerException(
                                 LocalizationMessages.EXCEPTION_SENDING_ERROR_RESPONSE(500, "Request failed."),
@@ -301,7 +299,7 @@ public final class GrizzlyHttpContainer2 extends HttpHandler implements Containe
                     }
                 }
             } finally {
-                logger.debugLog("{0} - failure(...) called", name);
+                logger.debug("{} - failure(...) called", name);
                 rethrow(error);
             }
         }
@@ -361,10 +359,10 @@ public final class GrizzlyHttpContainer2 extends HttpHandler implements Containe
         final ResponseWriter responseWriter = new ResponseWriter(response, configSetStatusOverSendError);
         DB db = null;
         
+        URI requestUri = getRequestUri(request);
         try {
-            logger.debugLog("GrizzlyHttpContainer.service(...) started");
+            logger.debug("GrizzlyHttpContainer.service(...) started");
             URI baseUri = getBaseUri(request);
-            URI requestUri = getRequestUri(request);
             final ContainerRequest requestContext = new ContainerRequest(baseUri,
                     requestUri, request.getMethod().getMethodString(),
                     getSecurityContext(request), new GrizzlyRequestPropertiesDelegate2(request));
@@ -381,11 +379,13 @@ public final class GrizzlyHttpContainer2 extends HttpHandler implements Containe
             
             db = DBFactory.open();
             appHandler.handle(requestContext);
+        } catch(Throwable e) {
+            logger.error("handle {} fail", requestUri, e);
         } finally {
             if (db != null) {
                 db.close();
             }
-            logger.debugLog("GrizzlyHttpContainer.service(...) finished");
+            logger.debug("GrizzlyHttpContainer.service(...) finished");
         }
     }
 

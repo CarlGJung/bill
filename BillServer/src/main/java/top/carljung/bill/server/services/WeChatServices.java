@@ -57,7 +57,7 @@ public class WeChatServices {
         User user = null;
         
         if (StringUtils.isNotBlank(loginRsp.getErrorCode()) && (user = User.ensureWXUser(loginRsp)) != null) {
-            Session session = SessionFactory.instance().getSession(req);
+            Session session = SessionFactory.instance().createSession(user);
             session.setAttribute("wx", loginRsp);
             cookie = new NewCookie("session", session.getId(), null, null, 1, null, Session.ALIVE_TIME_SECOND, null, false, false);
         } else {

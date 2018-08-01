@@ -20,6 +20,7 @@ public class OriginFilter implements ContainerResponseFilter{
         MultivaluedMap<String, Object> headers = responseContext.getHeaders();
         //TO DO check if is allowed
         headers.add("Access-Control-Allow-Origin", requestOrigin);
+        headers.add("Access-Control-Allow-Credentials", true);
         headers.add("Access-Control-Allow-Headers", requestContext.getHeaderString("access-control-request-headers"));
     }
     

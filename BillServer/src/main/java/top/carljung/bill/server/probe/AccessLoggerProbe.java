@@ -37,12 +37,16 @@ public class AccessLoggerProbe extends HttpServerProbe.Adapter{
 
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private void logAccess(Response response, long requestReceiveTime, long responseTime){
-        String requestReceiveDate = dateFormat.format(new Date(requestReceiveTime));
-        Request request = response.getRequest();
-        String url = request.getRequestURL().toString();
-        int status = response.getStatus();
-        String remoteAddr = request.getRemoteAddr();
-        String userAgent = request.getHeader("User-Agent");
-        logger.info(requestReceiveDate + " " + remoteAddr + " " + responseTime + "ms " + status + " "+ url + " " + userAgent);
+        try{
+            String requestReceiveDate = dateFormat.format(new Date(requestReceiveTime));
+            Request request = response.getRequest();
+            String method = request.getMethod().getMethodString();
+            String url = request.getRequestURL().toString();
+            int status = response.getStatus();
+            String remoteAddr = request.getRemoteAddr();
+            String userAgent = request.getHeader("User-Agent");
+            logger.info(requestReceiveDate + " " + remoteAddr + " " + responseTime + "ms " + status + " " + method + " "+ url + " " + userAgent);
+        }catch(Throwable e){
+        }
     }
 }

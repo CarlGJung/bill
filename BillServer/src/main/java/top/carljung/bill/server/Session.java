@@ -22,11 +22,12 @@ public class Session implements Principal, HttpSession{
     private String sessionId;
     private long creationTime;
     private long touchTime;
+    private int userId;
     
-    public Session(String sessionId){
+    public Session(String sessionId, int userId){
         this.touchTime = this.creationTime = System.currentTimeMillis();
         this.sessionId = sessionId;
-        
+        this.userId = userId;
     }
     
     public boolean isAlive(){
