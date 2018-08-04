@@ -21,7 +21,8 @@ function ajax(options){
     xhr.send(data);
 
     var XHR_DONE = 4;
-    var RESPONSE_OK;
+    var RESPONSE_OK = 200;
+    
     xhr.onreadystatechange = function(){
         if (xhr.readyState === XHR_DONE) {
             if (xhr.status === RESPONSE_OK) {
@@ -33,7 +34,6 @@ function ajax(options){
             if (isFunction(complete)) {
                 complete(xhr);
             }
-            console.log(xhr);
         }
     };
 

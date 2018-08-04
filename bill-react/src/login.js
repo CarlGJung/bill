@@ -1,12 +1,12 @@
 import React from 'react';
 import ajax from './ajax';
 import User from './pbStore';
-import {Link} from 'react-router-dom';
+import {Link, Redirect} from 'react-router-dom';
 
-class Register extends React.Component{
-    constructor(props){
+class Login extends React.Component{
+     constructor(props){
         super(props);
-        this.state = {username: "", password: "", verifyUsernameMsg: "", verifyPasswordMsg: ""};
+        this.state = {username: "", password: "", verifyUsernameMsg: "", verifyPasswordMsg: "", login: false};
         this.onInputUsername = this.onInputUsername.bind(this);
         this.onInputPassword = this.onInputPassword.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
@@ -26,23 +26,28 @@ class Register extends React.Component{
         user.username = this.state.username;
         user.password = this.state.password;
         console.log(user.toArrayBuffer());
-        ajax({url: "/user/register", method: "POST", type:"application/x-protobuf", data: user.toArrayBuffer()});
+        ajax({url: "/user/login", method: "POST", type:"application/x-protobuf", data: user.toArrayBuffer(), success: (data)=>{
+            this.setState({login: true});
+        }});
         
     }
     
     render(){
+        if (this.state.login) {
+            return  <Redirect to="/register"></Redirect>;
+        }
         return( 
             <div>
                 <form onSubmit={this.onSubmit}>
                     <input type="text" value={this.state.username} onChange={this.onInputUsername} placeholder="请输入用户名"/>
                     <span>{this.state.verifyUsernameMsg}</span>
                     <input type="password" value={this.state.password} onChange={this.onInputPassword} placeholder="请输入密码"/>
-                    <input type="submit" value="注册"></input>
+                    <input type="submit" value="登录"></input>
                 </form>
-                <Link to="/login">登录</Link>
+                <Link to="/register">注册</Link>
             </div>
         );
     }
 };
 
-export default Register;
+export default Login;
