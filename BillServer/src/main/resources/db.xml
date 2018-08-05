@@ -20,7 +20,10 @@
             <column name="id" type="int" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false" />
             </column>
-            <column name="currency" type="currency" defaultValueNumeric="0"></column>
+            <column name="user_id" type="int" />
+            <column name="label_id" type="int" />
+            <column name="type" type="smallint" />
+            <column name="money" type="currency"></column>
             <column name="created_at" type="datetime" />
         </createTable>
     </changeSet>

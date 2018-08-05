@@ -16,7 +16,8 @@ enum BillType{
 
 message Bill{
     BillType type = 1;
-    int32 label = 2;
+    int32 labelId = 2;
+    int64 money = 3;
 }
 
 message Label{

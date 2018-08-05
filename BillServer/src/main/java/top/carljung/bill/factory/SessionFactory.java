@@ -69,7 +69,7 @@ public class SessionFactory {
                 sessionId = cookie.getValue();
             }
         }
-        return sessions.get(sessionId);
+        return sessionId != null ? sessions.get(sessionId) : null;
     }
 
     private String generatorSessionId(){

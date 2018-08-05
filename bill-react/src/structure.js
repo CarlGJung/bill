@@ -1,7 +1,7 @@
 /*eslint-disable block-scoped-var, no-redeclare, no-control-regex, no-prototype-builtins*/
 import * as $protobuf from "protobufjs/light";
 
-const $root = ($protobuf.roots.structure || ($protobuf.roots.structure = new $protobuf.Root()))
+const $root = ($protobuf.roots.pbStore || ($protobuf.roots.pbStore = new $protobuf.Root()))
 .setOptions({
   java_package: "top.carljung.bill.proto",
   java_outer_classname: "StructureStore"
@@ -36,9 +36,13 @@ const $root = ($protobuf.roots.structure || ($protobuf.roots.structure = new $pr
         type: "BillType",
         id: 1
       },
-      label: {
+      labelId: {
         type: "int32",
         id: 2
+      },
+      money: {
+        type: "int64",
+        id: 3
       }
     }
   },

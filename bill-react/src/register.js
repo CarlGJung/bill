@@ -1,6 +1,6 @@
 import React from 'react';
 import ajax from './ajax';
-import User from './pbStore';
+import {User} from './pbStore';
 import {Link} from 'react-router-dom';
 
 class Register extends React.Component{

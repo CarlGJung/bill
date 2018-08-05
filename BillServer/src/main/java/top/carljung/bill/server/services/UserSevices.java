@@ -47,7 +47,7 @@ public class UserSevices {
             User user = User.getUser(username, password);
             if (user != null) {
                 Session session = SessionFactory.instance().createSession(user);
-                NewCookie cookie = new NewCookie("session", session.getId(), null, null, null, 30 * 60 * 1000, false);
+                NewCookie cookie = new NewCookie("session", session.getId(), "/", null, null, 30 * 60, false);
                 return Response.ok().cookie(cookie).build();
             }
         }

@@ -29,6 +29,10 @@ public class Session implements Principal, HttpSession{
         this.sessionId = sessionId;
         this.userId = userId;
     }
+
+    public int getUserId() {
+        return userId;
+    }
     
     public boolean isAlive(){
         return touchTime - System.currentTimeMillis() >= ALIVE_TIME_MILLION; 

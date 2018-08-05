@@ -1,6 +1,6 @@
 import React from 'react';
 import ajax from './ajax';
-import User from './pbStore';
+import {User} from './pbStore';
 import {Link, Redirect} from 'react-router-dom';
 
 class Login extends React.Component{
@@ -34,7 +34,7 @@ class Login extends React.Component{
     
     render(){
         if (this.state.login) {
-            return  <Redirect to="/register"></Redirect>;
+            return  <Redirect to="/bill"></Redirect>;
         }
         return( 
             <div>
