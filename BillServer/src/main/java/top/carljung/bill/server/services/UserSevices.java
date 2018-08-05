@@ -8,7 +8,7 @@ import javax.ws.rs.core.Response;
 import org.apache.commons.lang3.StringUtils;
 import top.carljung.bill.db.User;
 import top.carljung.bill.factory.SessionFactory;
-import top.carljung.bill.proto.StructureStore;
+import top.carljung.bill.proto.PBStore;
 import top.carljung.bill.server.MediaType;
 import top.carljung.bill.server.Session;
 import top.carljung.bill.utils.Utils;
@@ -17,13 +17,13 @@ import top.carljung.bill.utils.Utils;
  *
  * @author wangchao
  */
-@Path("/user")
+@Path("/users")
 public class UserSevices {
     
     @POST
     @Path("/register")
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_PROTOBUF})
-    public Response registerNewUser(StructureStore.User user){
+    public Response registerNewUser(PBStore.User user){
         String username = user.getUsername();
         String password = user.getPassword();
         
@@ -39,7 +39,7 @@ public class UserSevices {
     
     @POST
     @Path("/login")
-    public Response login(StructureStore.User requestUser){
+    public Response login(PBStore.User requestUser){
         String username = requestUser.getUsername();
         String password = requestUser.getPassword();
         

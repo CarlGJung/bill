@@ -26,7 +26,7 @@ class Register extends React.Component{
         user.username = this.state.username;
         user.password = this.state.password;
         console.log(user.toArrayBuffer());
-        ajax({url: "/user/register", method: "POST", type:"application/x-protobuf", data: user.toArrayBuffer()});
+        ajax({url: "/users/register", method: "POST", type:"application/x-protobuf", data: user.toArrayBuffer()});
         
     }
     

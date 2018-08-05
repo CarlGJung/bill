@@ -26,7 +26,7 @@ class Login extends React.Component{
         user.username = this.state.username;
         user.password = this.state.password;
         console.log(user.toArrayBuffer());
-        ajax({url: "/user/login", method: "POST", type:"application/x-protobuf", data: user.toArrayBuffer(), success: (data)=>{
+        ajax({url: "/users/login", method: "POST", type:"application/x-protobuf", data: user.toArrayBuffer(), success: (data)=>{
             this.setState({login: true});
         }});
         

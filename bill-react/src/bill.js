@@ -3,6 +3,29 @@ import ajax from './ajax';
 import {Link, Redirect} from 'react-router-dom';
 import {pbStore} from './pbStore';
 
+class BillHome extends React.Component{
+    constructor(props){
+        super(props);
+        this.state = {bills: []};
+    }
+    
+    componentDidMount(){
+        ajax({url: "bills/bills", accept: "application/x-protobuf", success: (data, xhr)=>{
+            var bills = pbStore.BillList.decode(data);
+            this.setState({bills: bills.bills});
+        }});
+    }
+    
+    render(){
+        return(
+            <div>
+                <BillRecord></BillRecord>
+                <BillList bills={this.state.bills}></BillList>
+            </div>    
+        );
+    }
+};
+
 class BillRecord extends React.Component{
     constructor(props){
         super(props);
@@ -14,6 +37,7 @@ class BillRecord extends React.Component{
     handleInput(event){
         this.setState({money: event.target.value});
     }
+
     recordBill(event){
         var bill = pbStore.Bill.create({
             type: pbStore.BillType.INCOME
@@ -21,7 +45,7 @@ class BillRecord extends React.Component{
           , labelId: 0
         });
 
-        ajax({url: "bill/record", method: "POST", type: "application/x-protobuf", data: bill.toArrayBuffer()});
+        ajax({url: "bills/record", method: "POST", type: "application/x-protobuf", data: bill.toArrayBuffer()});
     }
     
     render(){
@@ -34,4 +58,17 @@ class BillRecord extends React.Component{
     }
 };
 
-export default BillRecord;
+function BillList(props){
+    const bills = props.bills;
+    const billItems = bills.map((bill)=>
+        <li key={bill.id}>{bill.money}</li>
+    );
+   
+    return (
+        <ul>
+            {billItems}
+        </ul>        
+    );
+}
+
+export default BillHome;

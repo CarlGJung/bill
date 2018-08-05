@@ -1,6 +1,6 @@
 syntax="proto3";
 option java_package="top.carljung.bill.proto";
-option java_outer_classname="StructureStore";
+option java_outer_classname="PBStore";
 
 message User{
     int32 userId = 1;
@@ -15,9 +15,14 @@ enum BillType{
 }
 
 message Bill{
-    BillType type = 1;
-    int32 labelId = 2;
-    int64 money = 3;
+    int32 id = 1;
+    BillType type = 2;
+    int32 labelId = 3;
+    double money = 4;
+}
+
+message BillList{
+    repeated Bill bills = 1;
 }
 
 message Label{

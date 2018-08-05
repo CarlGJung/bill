@@ -1,14 +1,16 @@
 package top.carljung.bill.db;
 
 import java.sql.Date;
+import java.util.List;
 import org.javalite.activejdbc.Model;
 import org.javalite.activejdbc.annotations.Table;
+import top.carljung.bill.proto.PBStore;
 
 /**
  *
  * @author wangchao
  */
-@Table("bill")
+@Table("bills")
 public class Bill extends Model{
     public static final String ID = "id";
     public static final String USER_ID = "user_id";
@@ -49,5 +51,24 @@ public class Bill extends Model{
     }
     public void setCreatedAt(Date createdAt){
         setDate(CREATED_AT, createdAt);
+    }
+    
+    public PBStore.Bill.Builder toPBBill(){
+        PBStore.Bill.Builder bill = PBStore.Bill.newBuilder();
+        bill.setId(this.getBillId());
+        bill.setTypeValue(this.getType());
+        bill.setLabelId(this.getLabelId());
+        bill.setMoney(this.getMoney());
+        return bill;
+    }
+    
+    public static PBStore.BillList.Builder getBillList(int userId){
+        PBStore.BillList.Builder billList = PBStore.BillList.newBuilder();
+        List<Bill> bills = Bill.find("user_id = ? ORDER BY created_at DESC", userId);
+        
+        for (Bill dbBill : bills) {
+            billList.addBills(dbBill.toPBBill());
+        }
+        return billList;
     }
 }

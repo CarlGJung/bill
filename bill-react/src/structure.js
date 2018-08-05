@@ -4,7 +4,7 @@ import * as $protobuf from "protobufjs/light";
 const $root = ($protobuf.roots.pbStore || ($protobuf.roots.pbStore = new $protobuf.Root()))
 .setOptions({
   java_package: "top.carljung.bill.proto",
-  java_outer_classname: "StructureStore"
+  java_outer_classname: "PBStore"
 })
 .addJSON({
   User: {
@@ -32,17 +32,30 @@ const $root = ($protobuf.roots.pbStore || ($protobuf.roots.pbStore = new $protob
   },
   Bill: {
     fields: {
+      id: {
+        type: "int32",
+        id: 1
+      },
       type: {
         type: "BillType",
-        id: 1
+        id: 2
       },
       labelId: {
         type: "int32",
-        id: 2
+        id: 3
       },
       money: {
-        type: "int64",
-        id: 3
+        type: "double",
+        id: 4
+      }
+    }
+  },
+  BillList: {
+    fields: {
+      bills: {
+        rule: "repeated",
+        type: "Bill",
+        id: 1
       }
     }
   },
