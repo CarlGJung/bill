@@ -1,1 +1,3 @@
 /BillServer/src/main/java/top/carljung/bill/proto/
+/BillServer/logs/
+/BillServer/config/config.json
