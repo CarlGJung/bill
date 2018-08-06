@@ -2,7 +2,6 @@ import {Message} from "protobufjs/light";
 import pbStore from "./structure";
 
 const debug = false;
-window.pbStore = pbStore;
 
 Message.prototype.toArrayBuffer = function(){
     if (debug) {
@@ -19,5 +18,18 @@ function User(){
 
 pbStore.lookupType("User").ctor = User;//ES5 setter function
 
-export {pbStore, User};
+function Bill(){
+    
+}
+pbStore.lookupType("Bill").ctor = Bill;//ES5 setter function
+
+Bill.prototype.getTypeText = function(){
+    switch(this.type){
+        case pbStore.BillType.INCOME: return "收入";
+        case pbStore.BillType.PAYMENT: return "收入";
+        default: return "未知";    
+    }
+};
+
+export {pbStore};
 

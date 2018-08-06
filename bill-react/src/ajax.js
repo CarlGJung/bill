@@ -1,4 +1,5 @@
 const server = "http://localhost:18080/";
+
 function getServerUrl(url){
     if (url.indexOf("/") === 0) {
         url = url.replace(/^[/]+/, "");
@@ -7,10 +8,11 @@ function getServerUrl(url){
     url = server + url;
     return url;
 }
+
 function ajax(options){
     var method = options.method || "GET";
     var type = options.type || "text/plain";
-    var accept = options.accept || "*/*";
+    var accept = options.accept || "text/plain";
     var url = getServerUrl(options.url || "");
     var success = options.success;
     var complete = options.complete;
@@ -19,6 +21,7 @@ function ajax(options){
     xhr.open(method, url, true);
     xhr.setRequestHeader("Content-Type", type);
     xhr.setRequestHeader("Accept", accept);
+    xhr.responseType = accept.indexOf("text/") > 0 ? "text" : "arraybuffer";
     xhr.withCredentials = true;
     xhr.send(data);
 
@@ -31,35 +34,19 @@ function ajax(options){
             
             if (xhr.status === RESPONSE_OK) {
                 data = xhr.response;
-                
-                if (accept === "application/x-protobuf") {
-                    data = str2bytes(data);
+                if (xhr.responseType === "arraybuffer") {
+                    data = new Uint8Array(data);
                 }
-                
-                if (isFunction(success)) {
+
+                if (success) {
                     success(data, xhr);
                 }
-                if (isFunction(complete)) {
+                if (complete) {
                     complete(data, xhr);
                 }
             }
-
         }
     };
-    
-    function str2bytes(str){
-        var bytes = [];
-        for (var i = 0, len = str.length; i < len; ++i) {
-            var c = str.charCodeAt(i);
-            var byte = c & 0xff;
-            bytes.push(byte);
-        }
-        return bytes;
-    }
-    
-    function isFunction(o){
-        return typeof o === "function";
-    }
 }
 
 export default ajax;

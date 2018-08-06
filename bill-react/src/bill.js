@@ -7,11 +7,17 @@ class BillHome extends React.Component{
     constructor(props){
         super(props);
         this.state = {bills: []};
+        this.getBillList = this.getBillList.bind(this);
     }
     
     componentDidMount(){
+        this.getBillList();
+    }
+    
+    getBillList(){
         ajax({url: "bills/bills", accept: "application/x-protobuf", success: (data, xhr)=>{
             var bills = pbStore.BillList.decode(data);
+            console.log(bills);
             this.setState({bills: bills.bills});
         }});
     }
@@ -19,7 +25,7 @@ class BillHome extends React.Component{
     render(){
         return(
             <div>
-                <BillRecord></BillRecord>
+                <BillRecord success={this.getBillList}></BillRecord>
                 <BillList bills={this.state.bills}></BillList>
             </div>    
         );
@@ -45,7 +51,11 @@ class BillRecord extends React.Component{
           , labelId: 0
         });
 
-        ajax({url: "bills/record", method: "POST", type: "application/x-protobuf", data: bill.toArrayBuffer()});
+        ajax({url: "bills/record", method: "POST", type: "application/x-protobuf", data: bill.toArrayBuffer(), success: (data)=>{
+            if (this.props.success) {
+                this.props.success();
+            }
+        }});
     }
     
     render(){
@@ -61,7 +71,10 @@ class BillRecord extends React.Component{
 function BillList(props){
     const bills = props.bills;
     const billItems = bills.map((bill)=>
-        <li key={bill.id}>{bill.money}</li>
+        <li key={bill.id}>
+            <span>{bill.getTypeText()}</span>
+            <span>{bill.money}</span>
+        </li>
     );
    
     return (

@@ -1,6 +1,6 @@
 import React from 'react';
 import ajax from './ajax';
-import {User} from './pbStore';
+import {pbStore} from './pbStore';
 import {Link, Redirect} from 'react-router-dom';
 
 class Login extends React.Component{
@@ -22,10 +22,10 @@ class Login extends React.Component{
     
     onSubmit = function(event){
         event.preventDefault();
-        var user = new User();
+        var user = pbStore.User.create({});
         user.username = this.state.username;
         user.password = this.state.password;
-        console.log(user.toArrayBuffer());
+        
         ajax({url: "/users/login", method: "POST", type:"application/x-protobuf", data: user.toArrayBuffer(), success: (data)=>{
             this.setState({login: true});
         }});
