@@ -1,7 +1,7 @@
 import React from 'react';
 import ajax from './ajax';
 import {Link, Redirect} from 'react-router-dom';
-import {pbStore} from './pbStore';
+import Page from "./page";
 
 class BillHome extends React.Component{
     constructor(props){
@@ -16,8 +16,7 @@ class BillHome extends React.Component{
     
     getBillList(){
         ajax({url: "bills/bills", accept: "application/x-protobuf", success: (data, xhr)=>{
-            var bills = pbStore.BillList.decode(data);
-            console.log(bills);
+            var bills = window.pbStore.BillList.decode(data);
             this.setState({bills: bills.bills});
         }});
     }
@@ -45,12 +44,12 @@ class BillRecord extends React.Component{
     }
 
     recordBill(event){
-        var bill = pbStore.Bill.create({
-            type: pbStore.BillType.INCOME
+        var bill = window.pbStore.Bill.create({
+            type: window.pbStore.BillType.INCOME
           , money: this.state.money
           , labelId: 0
         });
-
+        
         ajax({url: "bills/record", method: "POST", type: "application/x-protobuf", data: bill.toArrayBuffer(), success: (data)=>{
             if (this.props.success) {
                 this.props.success();
@@ -84,4 +83,12 @@ function BillList(props){
     );
 }
 
-export default BillHome;
+class BillPage extends React.Component{
+    render(){
+        return (
+            <Page view={<BillHome/>} footer={(<Link to="/login">退出</Link>)}></Page>            
+        );
+    } 
+};
+
+export default BillPage;

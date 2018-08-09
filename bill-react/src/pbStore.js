@@ -18,10 +18,7 @@ function User(){
 
 pbStore.lookupType("User").ctor = User;//ES5 setter function
 
-function Bill(){
-    
-}
-pbStore.lookupType("Bill").ctor = Bill;//ES5 setter function
+var Bill = pbStore.lookupType("Bill").ctor;//ES5 getter function
 
 Bill.prototype.getTypeText = function(){
     switch(this.type){

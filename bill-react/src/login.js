@@ -1,7 +1,9 @@
+import "./login.css";
 import React from 'react';
+import {Link, Redirect} from 'react-router-dom';
 import ajax from './ajax';
 import {pbStore} from './pbStore';
-import {Link, Redirect} from 'react-router-dom';
+import Page from "./page";
 
 class Login extends React.Component{
      constructor(props){
@@ -39,15 +41,25 @@ class Login extends React.Component{
         return( 
             <div>
                 <form onSubmit={this.onSubmit}>
-                    <input type="text" value={this.state.username} onChange={this.onInputUsername} placeholder="请输入用户名"/>
-                    <span>{this.state.verifyUsernameMsg}</span>
-                    <input type="password" value={this.state.password} onChange={this.onInputPassword} placeholder="请输入密码"/>
-                    <input type="submit" value="登录"></input>
+                    <div className="form-group username">
+                        <input type="text" value={this.state.username} onChange={this.onInputUsername} placeholder="请输入用户名"/>
+                    </div>
+                    <div className="form-group password">
+                        <input type="password" value={this.state.password} onChange={this.onInputPassword} placeholder="请输入密码"/>
+                    </div>
+                    <button className="btn btn-primary login-btn" type="submit">登录</button>
                 </form>
-                <Link to="/register">注册</Link>
             </div>
         );
     }
 };
 
-export default Login;
+class LoginPage extends React.Component{
+    render(){
+        return (
+            <Page view={<Login/>} footer={(<Link to="/register">注册</Link>)}></Page>            
+        );
+    } 
+};
+
+export default LoginPage;

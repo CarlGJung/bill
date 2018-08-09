@@ -1,22 +1,34 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {BrowserRouter, Route, Switch, Redirect} from 'react-router-dom';
-import './index.css';
+import {BrowserRouter, Route, Switch, Redirect, Link} from 'react-router-dom';
 import registerServiceWorker from './registerServiceWorker';
+import "bootstrap";
+import 'bootstrap/dist/css/bootstrap.css';
+import './index.css';
 import ajax from "./ajax";
-import Register from "./register";
-import Login from "./login";
-import BillHome from "./bill";
+import LoginPage from "./login";
+import RegisterPage from "./register";
+import BillPage from "./bill";
+import {pbStore} from './pbStore';
 
-var structure = require("./structure.js");
+window.pbStore = pbStore;
+
+class App extends React.Component{
+    render(){
+        return (
+            <BrowserRouter>
+                <Switch>
+                    <Redirect exact from="/" to="/login"></Redirect>
+                    <Route exact path="/login" component={LoginPage}></Route>
+                    <Route exact path="/register" component={RegisterPage}></Route>
+                    <Route exact path="/bill" component={BillPage}></Route>
+                </Switch>
+            </BrowserRouter>   
+        );
+    }
+};
+
 ReactDOM.render(
-    <BrowserRouter>
-        <Switch>
-            <Redirect exact from="/" to="/login"></Redirect>
-            <Route exact path="/login" component={Login}></Route>
-            <Route exact path="/register" component={Register}></Route>
-            <Route exact path="/bill" component={BillHome}></Route>
-        </Switch>
-    </BrowserRouter>
+    <App></App>        
 , document.getElementById('root'));
 registerServiceWorker();

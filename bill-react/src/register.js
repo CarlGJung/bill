@@ -1,7 +1,8 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 import ajax from './ajax';
 import {pbStore} from './pbStore';
-import {Link} from 'react-router-dom';
+import Page from "./page";
 
 class Register extends React.Component{
     constructor(props){
@@ -34,15 +35,25 @@ class Register extends React.Component{
         return( 
             <div>
                 <form onSubmit={this.onSubmit}>
-                    <input type="text" value={this.state.username} onChange={this.onInputUsername} placeholder="请输入用户名"/>
-                    <span>{this.state.verifyUsernameMsg}</span>
-                    <input type="password" value={this.state.password} onChange={this.onInputPassword} placeholder="请输入密码"/>
-                    <input type="submit" value="注册"></input>
+                    <div className="form-group username">
+                        <input type="text" value={this.state.username} onChange={this.onInputUsername} placeholder="请输入用户名"/>
+                    </div>
+                    <div className="form-group password">
+                        <input type="password" value={this.state.password} onChange={this.onInputPassword} placeholder="请输入密码"/>
+                    </div>
+                    <button className="btn btn-primary login-btn" type="submit">注册</button>
                 </form>
-                <Link to="/login">登录</Link>
             </div>
         );
     }
 };
 
-export default Register;
+class RegisterPage extends React.Component{
+    render(){
+        return (
+            <Page view={<Register/>} footer={(<Link to="/login">登录</Link>)}></Page>            
+        );
+    } 
+};
+
+export default RegisterPage;
