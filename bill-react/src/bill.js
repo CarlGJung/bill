@@ -2,6 +2,7 @@ import React from 'react';
 import ajax from './ajax';
 import {Link, Redirect} from 'react-router-dom';
 import Page from "./page";
+import TabSelector from "./component"
 
 class BillHome extends React.Component{
     constructor(props){
@@ -31,12 +32,21 @@ class BillHome extends React.Component{
     }
 };
 
+const billTabs = [];
+Object.keys(window.pbStore.BillType).forEach(function(key){
+    var value = window.pbStore.BillType[key];
+    if (value > 0) {
+        billTabs.push({"value": value, "name": window.pbStore.Bill.getTypeName(value)});
+    }
+});
+
 class BillRecord extends React.Component{
     constructor(props){
         super(props);
-        this.state = {money: ""};
+        this.state = {money: "", type: window.pbStore.BillType.PAYMENT};
         this.handleInput = this.handleInput.bind(this);
         this.recordBill = this.recordBill.bind(this);
+        this.onBillTypeChange = this.onBillTypeChange.bind(this);
     }
     
     handleInput(event){
@@ -45,7 +55,7 @@ class BillRecord extends React.Component{
 
     recordBill(event){
         var bill = window.pbStore.Bill.create({
-            type: window.pbStore.BillType.INCOME
+            type: this.state.type
           , money: this.state.money
           , labelId: 0
         });
@@ -57,9 +67,14 @@ class BillRecord extends React.Component{
         }});
     }
     
+    onBillTypeChange(value){
+        this.setState({type: value});
+    }
+    
     render(){
         return (
             <div>
+                <TabSelector tabs={billTabs} value={this.state.type} onSelect={this.onBillTypeChange}></TabSelector>    
                 <input type="number" autoFocus value={this.state.money} onChange={this.handleInput}></input>
                 <button onClick={this.recordBill}>确定</button>
             </div>
@@ -71,7 +86,7 @@ function BillList(props){
     const bills = props.bills;
     const billItems = bills.map((bill)=>
         <li key={bill.id}>
-            <span>{bill.getTypeText()}</span>
+            <span>{bill.getTypeName()}</span>
             <span>{bill.money}</span>
         </li>
     );

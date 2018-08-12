@@ -1,6 +1,7 @@
 import {Message} from "protobufjs/light";
 import pbStore from "./structure";
 
+window.pbStore = pbStore;
 const debug = false;
 
 Message.prototype.toArrayBuffer = function(){
@@ -12,21 +13,22 @@ Message.prototype.toArrayBuffer = function(){
     }
     return this.$type.encode(this).finish();
 };
-function User(){
-    
-}
 
-pbStore.lookupType("User").ctor = User;//ES5 setter function
+pbStore.User = pbStore.lookupType("User").ctor;
 
-var Bill = pbStore.lookupType("Bill").ctor;//ES5 getter function
 
-Bill.prototype.getTypeText = function(){
-    switch(this.type){
-        case pbStore.BillType.INCOME: return "收入";
-        case pbStore.BillType.PAYMENT: return "收入";
-        default: return "未知";    
-    }
+pbStore.Bill = pbStore.lookupType("Bill").ctor;//ES5 getter function
+
+pbStore.Bill.prototype.getTypeName = function(){
+    return pbStore.Bill.getTypeName(this.type);
 };
 
+pbStore.Bill.getTypeName = function(value){
+    switch(value){
+        case pbStore.BillType.INCOME: return "收入";
+        case pbStore.BillType.PAYMENT: return "支出";
+        default: return "未知";    
+    }
+}
 export {pbStore};
 

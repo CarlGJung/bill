@@ -1,4 +1,4 @@
-const server = "http://localhost:18080/";
+const server = "http://bill.carl-jung.top:18080/";
 
 function getServerUrl(url){
     if (url.indexOf("/") === 0) {

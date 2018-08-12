@@ -9,9 +9,8 @@ import ajax from "./ajax";
 import LoginPage from "./login";
 import RegisterPage from "./register";
 import BillPage from "./bill";
-import {pbStore} from './pbStore';
+import './pbStore';
 
-window.pbStore = pbStore;
 
 class App extends React.Component{
     render(){
