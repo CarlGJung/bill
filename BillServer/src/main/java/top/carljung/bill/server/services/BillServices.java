@@ -5,12 +5,14 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import org.glassfish.grizzly.http.server.Request;
 import top.carljung.bill.db.Bill;
+import top.carljung.bill.db.BillLabel;
 import top.carljung.bill.proto.PBStore;
 import top.carljung.bill.server.MediaType;
 import top.carljung.bill.server.Session;
@@ -54,5 +56,16 @@ public class BillServices {
             dbBill.saveIt();
         }
         return Response.ok().build();
-    } 
+    }
+    
+    @GET
+    @Path("/labels/{billType}")
+    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_PROTOBUF})
+    public PBStore.BillLabelList getBillLabels(@PathParam("billType") int billType){
+        Session session = (Session)securityContext.getUserPrincipal();
+        if (session != null) {
+            return BillLabel.getLabels(session.getUserId(), billType).build();
+        }
+        return PBStore.BillLabelList.getDefaultInstance();
+    }
 }

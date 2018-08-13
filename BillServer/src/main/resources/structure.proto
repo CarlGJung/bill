@@ -25,7 +25,13 @@ message BillList{
     repeated Bill bills = 1;
 }
 
-message Label{
+message BillLabel{
     int32 id = 1;
-    string name = 2;
+    int32 billType = 2;
+    string name = 3;
+    string remark = 4;
+}
+
+message BillLabelList{
+    repeated BillLabel labels = 1;
 }

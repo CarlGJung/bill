@@ -59,15 +59,32 @@ const $root = ($protobuf.roots.pbStore || ($protobuf.roots.pbStore = new $protob
       }
     }
   },
-  Label: {
+  BillLabel: {
     fields: {
       id: {
         type: "int32",
         id: 1
       },
+      billType: {
+        type: "int32",
+        id: 2
+      },
       name: {
         type: "string",
-        id: 2
+        id: 3
+      },
+      remark: {
+        type: "string",
+        id: 4
+      }
+    }
+  },
+  BillLabelList: {
+    fields: {
+      labels: {
+        rule: "repeated",
+        type: "BillLabel",
+        id: 1
       }
     }
   }
