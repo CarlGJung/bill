@@ -73,7 +73,7 @@ class BillRecord extends React.Component{
     
     render(){
         return (
-            <div>
+            <div className="bill-record">
                 <TabSelector tabs={billTabs} value={this.state.type} onSelect={this.onBillTypeChange}></TabSelector>    
                 <input type="number" autoFocus value={this.state.money} onChange={this.handleInput}></input>
                 <button onClick={this.recordBill}>确定</button>

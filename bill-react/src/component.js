@@ -1,4 +1,5 @@
 import React from "react";
+import "./component.css";
 
 class TabSelector extends React.PureComponent{
     static defaultProps = {
