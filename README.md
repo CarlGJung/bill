@@ -1,2 +1,2 @@
 # bill  
-A project for learning
+A project for learning, thinking and making error
