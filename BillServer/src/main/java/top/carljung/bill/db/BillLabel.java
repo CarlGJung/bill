@@ -15,6 +15,7 @@ public class BillLabel extends Model{
     public static final String USER_ID = "user_id";
     public static final String BILL_TYPE = "bill_type";
     public static final String NAME = "name";
+    public static final String COLOR = "color";
     public static final String REMARK = "remark";
     
     public static final int ALL_USER = -1;
@@ -47,6 +48,14 @@ public class BillLabel extends Model{
         setString(NAME, name);
     }
     
+    public String getColor(){
+        return getString(COLOR);
+    }
+    
+    public void setColor(String color){
+        setString(COLOR, color);
+    }
+    
     public String getRemark(){
         return getString(REMARK);
     }
@@ -60,6 +69,7 @@ public class BillLabel extends Model{
         pbLabel.setId(this.getLabelId());
         pbLabel.setBillType(this.getBillType());
         pbLabel.setName(this.getName());
+        pbLabel.setColor(this.getColor());
         pbLabel.setRemark(this.getRemark());
         return pbLabel;
     }

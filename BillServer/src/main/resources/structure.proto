@@ -29,7 +29,8 @@ message BillLabel{
     int32 id = 1;
     int32 billType = 2;
     string name = 3;
-    string remark = 4;
+    string color = 4;
+    string remark = 5;
 }
 
 message BillLabelList{
