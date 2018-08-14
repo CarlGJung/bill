@@ -1,0 +1,8 @@
+[Unit]
+Description=bill service
+
+[Service]
+User=root
+#Type=forking
+ExecStart=/opt/bill/start.sh
+
