@@ -65,9 +65,8 @@ public class BillServices {
         Session session = (Session)securityContext.getUserPrincipal();
         if (session != null) {
             return BillLabel.getLabels(session.getUserId(), billType).build();
-        } else {
-            return BillLabel.getLabels(-1, billType).build();
         }
-//        return PBStore.BillLabelList.getDefaultInstance();
+        
+        return PBStore.BillLabelList.getDefaultInstance();
     }
 }
