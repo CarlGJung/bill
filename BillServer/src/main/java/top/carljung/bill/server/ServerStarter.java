@@ -40,9 +40,9 @@ public class ServerStarter {
                     new GrizzlyHttpContainer2(new Application()), false, null, false);
         final ServerConfiguration config = server.getServerConfiguration();
         String docRoot = serverConfig.getDocRoot();
-        StaticHttpHandler staticHandler = new StaticHttpHandler(docRoot + "/www");
+        StaticHttpHandler staticHandler = new StaticHttpHandler(docRoot);
         staticHandler.setFileCacheEnabled(false);
-        config.addHttpHandler(staticHandler, "/www");
+        config.addHttpHandler(staticHandler, "/");
         config.addHttpHandler(new UploadHandler(), "/upload");
         config.getMonitoringConfig().getWebServerConfig().addProbes(new AccessLoggerProbe());
         Runtime.getRuntime().addShutdownHook(new Thread(server::shutdownNow));
