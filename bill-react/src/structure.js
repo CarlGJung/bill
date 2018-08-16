@@ -73,9 +73,13 @@ const $root = ($protobuf.roots.pbStore || ($protobuf.roots.pbStore = new $protob
         type: "string",
         id: 3
       },
-      remark: {
+      color: {
         type: "string",
         id: 4
+      },
+      remark: {
+        type: "string",
+        id: 5
       }
     }
   },

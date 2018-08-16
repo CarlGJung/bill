@@ -10,8 +10,9 @@ import java.net.URI;
 import java.sql.SQLException;
 import liquibase.exception.LiquibaseException;
 import org.glassfish.grizzly.http.server.HttpServer;
+import org.glassfish.grizzly.http.server.HttpServerProbe;
 import org.glassfish.grizzly.http.server.ServerConfiguration;
-import org.glassfish.grizzly.http.server.StaticHttpHandler;
+import org.glassfish.grizzly.monitoring.MonitoringConfig;
 import org.slf4j.LoggerFactory;
 import top.carljung.bill.config.Configuration;
 import top.carljung.bill.db.DBFactory;
@@ -39,12 +40,9 @@ public class ServerStarter {
         final HttpServer server = GrizzlyHttpServerFactory2.createHttpServer(BASE_URI,
                     new GrizzlyHttpContainer2(new Application()), false, null, false);
         final ServerConfiguration config = server.getServerConfiguration();
-        String docRoot = serverConfig.getDocRoot();
-        StaticHttpHandler staticHandler = new StaticHttpHandler(docRoot);
-        staticHandler.setFileCacheEnabled(false);
-        config.addHttpHandler(staticHandler, "/");
         config.addHttpHandler(new UploadHandler(), "/upload");
-        config.getMonitoringConfig().getWebServerConfig().addProbes(new AccessLoggerProbe());
+        MonitoringConfig<HttpServerProbe> webServerConfig = config.getMonitoringConfig().getWebServerConfig();
+        webServerConfig.addProbes(new AccessLoggerProbe());
         Runtime.getRuntime().addShutdownHook(new Thread(server::shutdownNow));
         try {
             server.start();

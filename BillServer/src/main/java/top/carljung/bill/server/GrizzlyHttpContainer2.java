@@ -40,6 +40,7 @@
 
 package top.carljung.bill.server;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.Type;
@@ -77,10 +78,13 @@ import org.glassfish.grizzly.CompletionHandler;
 import org.glassfish.grizzly.http.server.HttpHandler;
 import org.glassfish.grizzly.http.server.Request;
 import org.glassfish.grizzly.http.server.Response;
+import org.glassfish.grizzly.http.server.StaticHttpHandlerBase;
 import org.javalite.activejdbc.DB;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import top.carljung.bill.config.Configuration;
 import top.carljung.bill.db.DBFactory;
+import top.carljung.bill.proto.ConfigStore;
 
 /**
  * Jersey {@code Container} implementation based on Grizzly {@link org.glassfish.grizzly.http.server.HttpHandler}.
@@ -356,10 +360,12 @@ public final class GrizzlyHttpContainer2 extends HttpHandler implements Containe
 
     @Override
     public void service(final Request request, final Response response) {
-        final ResponseWriter responseWriter = new ResponseWriter(response, configSetStatusOverSendError);
-        DB db = null;
-        
         URI requestUri = getRequestUri(request);
+        
+        if (handleResourceRequest(requestUri.getPath(), request, response)) {
+            return;
+        }
+        DB db = null;
         try {
             logger.debug("GrizzlyHttpContainer.service(...) started");
             URI baseUri = getBaseUri(request);
@@ -370,6 +376,7 @@ public final class GrizzlyHttpContainer2 extends HttpHandler implements Containe
             for (final String headerName : request.getHeaderNames()) {
                 requestContext.headers(headerName, request.getHeaders(headerName));
             }
+            final ResponseWriter responseWriter = new ResponseWriter(response, configSetStatusOverSendError);
             requestContext.setWriter(responseWriter);
 
             requestContext.setRequestScopedInitializer(injectionManager -> {
@@ -388,7 +395,51 @@ public final class GrizzlyHttpContainer2 extends HttpHandler implements Containe
             logger.debug("GrizzlyHttpContainer.service(...) finished");
         }
     }
-
+    
+    private static File webDir = null;
+    private static final Object LOCK = new Object();
+    
+    private File getWebDir(){
+        if (webDir == null) {
+            synchronized(LOCK){
+                if (webDir == null) {
+                    ConfigStore.Server serverConfig = Configuration.instance.getServerConfig();
+                    String docRoot = serverConfig.getDocRoot();
+                    webDir = new File(docRoot);
+                }
+            }
+        }
+        
+        return webDir;
+    }
+    
+    private boolean handleResourceRequest(final String path, final Request request, final Response response){
+        File resource = new File(getWebDir(), path);
+        final boolean exists = resource.exists();
+        final boolean isDirectory = resource.isDirectory();
+        boolean found = false;
+        
+        if (exists) {
+            if (isDirectory) {
+                resource = new File(resource, "/index.html");
+                if (resource.exists()) {
+                    found = true;
+                }
+            } else {
+                found = true;
+            }  
+        }
+        
+        if (found) {
+            try {
+                StaticHttpHandlerBase.sendFile(response, resource);
+            } catch (IOException ex) {
+                logger.warn("handle resource request fail: {}", path, ex);
+            }
+        }
+        return found;
+    }
+    
     private boolean containsContextPath(Request request) {
         return request.getContextPath() != null && request.getContextPath().length() > 0;
     }
