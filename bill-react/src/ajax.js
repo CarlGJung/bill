@@ -1,8 +1,10 @@
-const server = "http://localhost:18080/";
+const server = process.env.NODE_ENV === 'production'
+    ? window.location.protocol + "//" + window.location.host
+    : "http://localhost:18080";
 
 function getServerUrl(url){
-    if (url.indexOf("/") === 0) {
-        url = url.replace(/^[/]+/, "");
+    if (url.indexOf("/") !== 0) {
+        url = "/" + url;
     }
     
     url = server + url;
