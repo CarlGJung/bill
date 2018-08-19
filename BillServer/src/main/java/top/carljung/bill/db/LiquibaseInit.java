@@ -24,9 +24,12 @@ public class LiquibaseInit {
     private static final Logger logger = LoggerFactory.getLogger(LiquibaseInit.class);
     
     public void init() throws LiquibaseException, SQLException{
+        init(Configuration.instance.getDBConfig());
+    }
+    
+    public void init(ConfigStore.DB dbConfig) throws LiquibaseException, SQLException{
         String dbFile = "db.xml";
         ResourceAccessor resourceAccessor = new ClassLoaderResourceAccessor(getClass().getClassLoader());
-        ConfigStore.DB dbConfig = Configuration.instance.getDBConfig();
         String url = dbConfig.getUrl();
         Properties properties = new Properties();
         properties.setProperty("driver", dbConfig.getDriver());

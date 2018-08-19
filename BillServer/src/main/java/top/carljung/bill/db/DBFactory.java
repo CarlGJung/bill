@@ -15,7 +15,10 @@ public class DBFactory{
     private static Map<String, String> properites = new HashMap<>();
     
     public static void init(){
-        ConfigStore.DB dbConfig = Configuration.instance.getDBConfig();
+        init(Configuration.instance.getDBConfig());
+    }
+    
+    public static void init(ConfigStore.DB dbConfig){
         String[] urlSegements = dbConfig.getUrl().split("\\?");
         properites.put("driver", dbConfig.getDriver());
         properites.put("url", urlSegements[0]);

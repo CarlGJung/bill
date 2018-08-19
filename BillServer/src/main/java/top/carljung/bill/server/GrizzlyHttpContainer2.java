@@ -395,26 +395,9 @@ public final class GrizzlyHttpContainer2 extends HttpHandler implements Containe
             logger.debug("GrizzlyHttpContainer.service(...) finished");
         }
     }
-    
-    private static File webDir = null;
-    private static final Object LOCK = new Object();
-    
-    private File getWebDir(){
-        if (webDir == null) {
-            synchronized(LOCK){
-                if (webDir == null) {
-                    ConfigStore.Server serverConfig = Configuration.instance.getServerConfig();
-                    String docRoot = serverConfig.getDocRoot();
-                    webDir = new File(docRoot);
-                }
-            }
-        }
-        
-        return webDir;
-    }
-    
+
     private boolean handleResourceRequest(final String path, final Request request, final Response response){
-        File resource = new File(getWebDir(), path);
+        File resource = new File(Configuration.instance.getWebDir(), path);
         final boolean exists = resource.exists();
         final boolean isDirectory = resource.isDirectory();
         boolean found = false;

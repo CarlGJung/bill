@@ -54,7 +54,7 @@ public class ServerStarter {
     
     public void init(){
         try {
-            Configuration.instance.readConfig();
+            Configuration.instance.loadConfig();
             new LiquibaseInit().init();
             DBFactory.init();
             reConfigLogback();
