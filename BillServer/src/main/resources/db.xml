@@ -6,7 +6,7 @@
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
     
-    <property name="money" value="decimal(8,4)" dbms="mysql"/>
+    <property name="money" value="decimal(8,4)"/>
     
     <changeSet id="setCharsetToUtf8" author="wangchao">
         <sql stripComments="true">
