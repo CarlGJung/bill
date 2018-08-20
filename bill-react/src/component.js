@@ -24,6 +24,6 @@ class TabSelector extends React.PureComponent{
             </div>    
         );
     }
-}
+};
 
-export default TabSelector;
+export {TabSelector};

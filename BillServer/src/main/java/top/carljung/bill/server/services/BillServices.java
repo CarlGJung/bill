@@ -59,12 +59,12 @@ public class BillServices {
     }
     
     @GET
-    @Path("/labels/{billType}")
-    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_PROTOBUF})
-    public PBStore.BillLabelList getBillLabels(@PathParam("billType") int billType){
+    @Path("/labels/{type}")
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_PROTOBUF})
+    public PBStore.BillLabelList getBillLabels(@PathParam("type") int type){
         Session session = (Session)securityContext.getUserPrincipal();
         if (session != null) {
-            return BillLabel.getLabels(session.getUserId(), billType).build();
+            return BillLabel.getLabels(session.getUserId(), type).build();
         }
         
         return PBStore.BillLabelList.getDefaultInstance();

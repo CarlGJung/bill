@@ -13,9 +13,10 @@ import top.carljung.bill.proto.PBStore;
 public class BillLabel extends Model{
     public static final String ID = "id";
     public static final String USER_ID = "user_id";
-    public static final String BILL_TYPE = "bill_type";
+    public static final String TYPE = "type";
     public static final String NAME = "name";
     public static final String COLOR = "color";
+    public static final String ICON = "icon";
     public static final String REMARK = "remark";
     
     public static final int ALL_USER = -1;
@@ -32,12 +33,12 @@ public class BillLabel extends Model{
         setInteger(USER_ID, userId);
     }
     
-    public short getBillType(){
-        return getShort(BILL_TYPE);
+    public short getType(){
+        return getShort(TYPE);
     }
     
-    public void setBillType(int billType){
-        setShort(BILL_TYPE, billType);
+    public void setType(int type){
+        setShort(TYPE, type);
     }
     
     public String getName(){
@@ -56,6 +57,14 @@ public class BillLabel extends Model{
         setString(COLOR, color);
     }
     
+    public String getIcon(){
+        return getString(ICON);
+    }
+    
+    public void setIcon(String icon){
+        setString(ICON, icon);
+    }
+    
     public String getRemark(){
         return getString(REMARK);
     }
@@ -67,16 +76,22 @@ public class BillLabel extends Model{
     public PBStore.BillLabel.Builder toPBLabel(){
         PBStore.BillLabel.Builder pbLabel = PBStore.BillLabel.newBuilder();
         pbLabel.setId(this.getLabelId());
-        pbLabel.setBillType(this.getBillType());
+        pbLabel.setType(this.getType());
         pbLabel.setName(this.getName());
         pbLabel.setColor(this.getColor());
+        pbLabel.setIcon(this.getIcon());
         pbLabel.setRemark(this.getRemark());
         return pbLabel;
     }
     
-    public static PBStore.BillLabelList.Builder getLabels(int userId, int billType){
+    public static PBStore.BillLabelList.Builder getLabels(int userId, int type){
         PBStore.BillLabelList.Builder pbLabels = PBStore.BillLabelList.newBuilder();
-        List<BillLabel> billLabels = BillLabel.find("(user_id = ? OR user_id = ? ) AND bill_type = ?", userId, ALL_USER, billType);
+        List<BillLabel> billLabels;
+        if (type > PBStore.BillType.UNKNOW_VALUE ) {
+            billLabels = BillLabel.find("(user_id = ? OR user_id = ? ) AND type = ?", userId, ALL_USER, type);
+        } else {
+            billLabels = BillLabel.find("(user_id = ? OR user_id = ? )", userId, ALL_USER);
+        }
         
         for (BillLabel label : billLabels) {
             pbLabels.addLabels(label.toPBLabel());

@@ -25,7 +25,7 @@ const $root = ($protobuf.roots.pbStore || ($protobuf.roots.pbStore = new $protob
   },
   BillType: {
     values: {
-      DEFAULT: 0,
+      UNKNOW: 0,
       INCOME: 1,
       PAYMENT: 2
     }
@@ -65,7 +65,7 @@ const $root = ($protobuf.roots.pbStore || ($protobuf.roots.pbStore = new $protob
         type: "int32",
         id: 1
       },
-      billType: {
+      type: {
         type: "int32",
         id: 2
       },
@@ -77,9 +77,13 @@ const $root = ($protobuf.roots.pbStore || ($protobuf.roots.pbStore = new $protob
         type: "string",
         id: 4
       },
-      remark: {
+      icon: {
         type: "string",
         id: 5
+      },
+      remark: {
+        type: "string",
+        id: 6
       }
     }
   },

@@ -1,7 +1,7 @@
 const server = process.env.NODE_ENV === 'production'
     ? window.location.protocol + "//" + window.location.host
     : "http://localhost:18080";
-
+//const server = "http://bill.carl-jung.top:18080";
 function getServerUrl(url){
     if (url.indexOf("/") !== 0) {
         url = "/" + url;

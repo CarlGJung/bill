@@ -29,7 +29,7 @@
         </createTable>
     </changeSet>
     
-    <changeSet id="createBillsTable1" author="wangchao">
+    <changeSet id="createBillsTable" author="wangchao">
         <createTable tableName="bills">
             <column name="id" type="int" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false" />
@@ -49,9 +49,10 @@
                 <constraints primaryKey="true" nullable="false" />
             </column>
             <column name="user_id" type="int" />
-            <column name="bill_type" type="smallint" />
+            <column name="type" type="smallint" />
             <column name="name" type="varchar(50)" />
             <column name="color" type="varchar(50)" defaultValue="''"/>
+            <column name="icon" type="varchar(50)" defaultValue="''"/>
             <column name="remark" type="varchar(50)" defaultValue="''"></column>
             <column name="created_at" type="datetime" />
             <column name="updated_at" type="datetime" />
@@ -60,10 +61,10 @@
     
     <changeSet id="addDefaultBillLabels" author="wangchao">
         <sql stripComments="true">
-            INSERT INTO bill_labels (user_id, bill_type, name, color) VALUES (-1, 1, "工资", "#ffac38");
-            INSERT INTO bill_labels (user_id, bill_type, name, color) VALUES (-1, 2, "吃喝", "#ff8547");
-            INSERT INTO bill_labels (user_id, bill_type, name, color) VALUES (-1, 2, "医疗", "#f54545");
-            INSERT INTO bill_labels (user_id, bill_type, name, color) VALUES (-1, 2, "交通", "#8eb9f5");
+            INSERT INTO bill_labels (user_id, type, name, color) VALUES (-1, 1, "工资", "#ffac38");
+            INSERT INTO bill_labels (user_id, type, name, color) VALUES (-1, 2, "吃喝", "#ff8547");
+            INSERT INTO bill_labels (user_id, type, name, color) VALUES (-1, 2, "医疗", "#f54545");
+            INSERT INTO bill_labels (user_id, type, name, color) VALUES (-1, 2, "交通", "#8eb9f5");
         </sql>
     </changeSet>
 </databaseChangeLog>
