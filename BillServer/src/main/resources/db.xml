@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--http://www.liquibase.org/quickstart.html-->
 <databaseChangeLog
-  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
-         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    
+    <property name="money" value="decimal(8,4)" dbms="mysql"/>
+    
     <changeSet id="setCharsetToUtf8" author="wangchao">
         <sql stripComments="true">
             ALTER DATABASE bill DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_bin;
@@ -26,7 +29,7 @@
         </createTable>
     </changeSet>
     
-    <changeSet id="createBillsTable" author="wangchao">
+    <changeSet id="createBillsTable1" author="wangchao">
         <createTable tableName="bills">
             <column name="id" type="int" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false" />
@@ -34,7 +37,7 @@
             <column name="user_id" type="int" />
             <column name="label_id" type="int" />
             <column name="type" type="smallint" />
-            <column name="money" type="currency"></column>
+            <column name="money" type="${money}"></column>
             <column name="created_at" type="datetime" />
             <column name="updated_at" type="datetime" />
         </createTable>
