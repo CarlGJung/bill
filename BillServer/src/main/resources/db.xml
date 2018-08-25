@@ -23,6 +23,7 @@
             <column name="password" type="varchar(255)"></column>
             <column name="external_id" type="varchar(50)"></column>
             <column name="dn" type="varchar(50)"></column>
+            <column name="admin" type="boolean" defaultValueBoolean="0"></column>
             <column name="status" type="smallint" defaultValueNumeric="0"/>
             <column name="created_at" type="datetime" />
             <column name="updated_at" type="datetime" />

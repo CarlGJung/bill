@@ -1,5 +1,6 @@
 package top.carljung.bill.server.services;
 
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -13,6 +14,7 @@ import javax.ws.rs.core.SecurityContext;
 import org.glassfish.grizzly.http.server.Request;
 import top.carljung.bill.db.Bill;
 import top.carljung.bill.db.BillLabel;
+import top.carljung.bill.db.User;
 import top.carljung.bill.proto.PBStore;
 import top.carljung.bill.server.MediaType;
 import top.carljung.bill.server.Session;
@@ -22,6 +24,7 @@ import top.carljung.bill.server.Session;
  * @author wangchao
  */
 @Path("/bills")
+@RolesAllowed("user")
 public class BillServices {
     @Context
     SecurityContext securityContext;

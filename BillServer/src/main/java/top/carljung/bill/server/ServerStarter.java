@@ -38,7 +38,7 @@ public class ServerStarter {
         int port = serverConfig.getPort();
         final URI BASE_URI = URI.create("http://0.0.0.0:" + port + "/");
         final HttpServer server = GrizzlyHttpServerFactory2.createHttpServer(BASE_URI,
-                    new GrizzlyHttpContainer2(new Application()), false, null, false);
+                    new GrizzlyHttpContainer2(Application.getInstance()), false, null, false);
         final ServerConfiguration config = server.getServerConfiguration();
         config.addHttpHandler(new UploadHandler(), "/upload");
         MonitoringConfig<HttpServerProbe> webServerConfig = config.getMonitoringConfig().getWebServerConfig();

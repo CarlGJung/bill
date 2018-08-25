@@ -29,24 +29,31 @@ function ajax(options){
 
     var XHR_DONE = 4;
     var RESPONSE_OK = 200;
+    var RESPONSE_FORBIDDEN = 403;
     
     xhr.onreadystatechange = function(){
         if (xhr.readyState === XHR_DONE) {
-            var data = null;
-            
-            if (xhr.status === RESPONSE_OK) {
-                data = xhr.response;
-                if (xhr.responseType === "arraybuffer") {
-                    data = new Uint8Array(data);
-                }
-
-                if (success) {
-                    success(data, xhr);
-                }
-                if (complete) {
-                    complete(data, xhr);
-                }
+            var data = xhr.response;
+            if (xhr.responseType === "arraybuffer") {
+                data = new Uint8Array(data);
             }
+            
+            switch(xhr.status){
+                case RESPONSE_OK:
+                    if (success) {
+                        success(data, xhr);
+                    }
+                    break;
+                case RESPONSE_FORBIDDEN:
+                    window.location.hash = "#";
+                    break;
+                default:;    
+            }
+
+            if (complete) {
+                complete(data, xhr);
+            }
+            
         }
     };
 }

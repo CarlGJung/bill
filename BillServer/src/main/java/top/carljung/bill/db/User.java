@@ -18,6 +18,7 @@ public class User extends Model{
     public static final String STATUS = "status";
     public static final String EXTERNAL_ID = "external_id";
     public static final String DN = "dn";
+    public static final String ADMIN = "admin";
     
     public int getUserId(){
         Integer id = getInteger(ID);
@@ -47,6 +48,12 @@ public class User extends Model{
     }
     public void setDistinguishedName(String distinguishedName){
         setString(DN, distinguishedName);
+    }
+    public boolean isAdmin(){
+        return getBoolean(ADMIN);
+    }
+    public void setIsAdmin(boolean isAdmin){
+        setBoolean(DN, isAdmin);
     }
     public short getStatus(){
         return getShort(STATUS);

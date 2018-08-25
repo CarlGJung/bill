@@ -1,15 +1,22 @@
 package top.carljung.bill.server;
 
-import javax.ws.rs.ApplicationPath;
 import org.glassfish.jersey.server.ResourceConfig;
+import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
 
 /**
  *
  * @author wangchao
  */
-@ApplicationPath("/")
 public class Application extends ResourceConfig{
-    public Application(){
-        packages("top.carljung.bill.jersey","top.carljung.bill.server.filters","top.carljung.bill.server.services");
+    private Application(){
+    }
+    
+    public static Application getInstance(){
+        Application app = new Application();
+        app.packages("top.carljung.bill.jersey"
+                    ,"top.carljung.bill.server.filters"
+                    ,"top.carljung.bill.server.services");
+        app.register(RolesAllowedDynamicFeature.class);
+        return app;
     }
 }

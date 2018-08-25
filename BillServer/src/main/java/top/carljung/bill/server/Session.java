@@ -1,16 +1,17 @@
 package top.carljung.bill.server;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionContext;
 import top.carljung.bill.config.Configuration;
-
-
+import top.carljung.bill.db.User;
 
 /**
  *
@@ -22,6 +23,7 @@ public class Session implements Principal, HttpSession{
     private long creationTime;
     private long touchTime;
     private int userId;
+    private List<String> roles;
     
     public Session(String sessionId, int userId){
         this.touchTime = this.creationTime = System.currentTimeMillis();
@@ -35,6 +37,21 @@ public class Session implements Principal, HttpSession{
     
     public boolean isAlive(){
         return touchTime - System.currentTimeMillis() >= Configuration.instance.getSessionTimeoutMillis(); 
+    }
+    
+    public List<String> getRoles(){
+        if (roles == null) {
+            roles = new ArrayList<>();
+            User user = User.findById(userId);
+            if (user != null) {
+                roles.add("user");
+                if (user.isAdmin()) {
+                    roles.add("admin");
+                }
+            }
+        }
+        
+        return roles;
     }
     
     @Override
