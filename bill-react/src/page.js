@@ -16,9 +16,9 @@ class Page extends React.Component{
                 <div className="view">
                     {this.props.view}
                 </div>
-                <div className="footer">
+                <nav className="footer navbar fixed-bottom">
                     {this.props.footer}
-                </div>
+                </nav>
             </div>    
         );
     }

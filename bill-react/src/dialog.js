@@ -7,7 +7,8 @@ class Dialog extends React.PureComponent{
         header: null,
         body: null,
         footer: null,
-        onHide: null
+        onHide: null,
+        dialogRef: null
     };
     
     constructor(props, context){
@@ -26,6 +27,9 @@ class Dialog extends React.PureComponent{
     
     setModalRef = (ref)=>{
         this.$modal = $(ref);
+        if (this.props.dialogRef) {
+            this.props.dialogRef(this.$modal);
+        }
     }
     
     render(){

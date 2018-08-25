@@ -45,7 +45,7 @@ function getLabels(callback){
     }
 }
 
-class BillHome extends React.Component{
+class BillPage extends React.Component{
     constructor(props){
         super(props);
         this.state = {bills: [], showRecord: false};
@@ -73,8 +73,9 @@ class BillHome extends React.Component{
     render(){
         return(
             <div>
-                <BillList bills={this.state.bills}></BillList>
-                <button onClick={this.showRecordDialog}>记账</button>
+                <Page view={<BillList bills={this.state.bills}></BillList>} 
+                    footer={(<button className="record btn btn-sm btn-primary" onClick={this.showRecordDialog}>记账</button>)}>
+                </Page>   
                 {this.state.showRecord 
                     ? <RecordDialog onHide={this.onRecordDialogHide}></RecordDialog>
                     : null
@@ -88,6 +89,7 @@ class RecordDialog extends React.Component{
     constructor(props){
         super(props);
         this.state = {money: "", type: window.pbStore.BillType.PAYMENT, selectedLabel: null, labels: []};
+        this.dialog = null;
     }
     
     componentDidMount(){
@@ -120,6 +122,7 @@ class RecordDialog extends React.Component{
               , money: this.state.money
               , labelId: this.state.selectedLabel.id
             });
+            this.dialog.modal("hide");
             this.setState({money: 0});
             ajax({url: "bills/record", method: "POST", type: "application/x-protobuf", data: bill.toArrayBuffer(), success: (data)=>{
 
@@ -136,9 +139,14 @@ class RecordDialog extends React.Component{
         this.setState({selectedLabel: label});
     }
     
+    getDialogReg = (dialogRef)=>{
+        this.dialog = dialogRef;
+    }
+
     render(){
         return (
             <Dialog id="bill-record"
+                    dialogRef={this.getDialogReg}
                     header={
                     <div className="container-fluid">
                         <div className="row">
@@ -213,13 +221,5 @@ function BillLabelList(props){
         </ul>        
     );
 }
-
-class BillPage extends React.Component{
-    render(){
-        return (
-            <Page view={<BillHome/>} footer={(<Link to="/login">退出</Link>)}></Page>            
-        );
-    } 
-};
 
 export default BillPage;
