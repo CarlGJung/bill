@@ -43,6 +43,12 @@ public class Configuration {
         return getConfig().getServer();
     }
     
+    public int getSessionTimeout(){
+        return getConfig().getServer().getSessionTimeout() * 60;
+    }
+    public long getSessionTimeoutMillis(){
+        return getConfig().getServer().getSessionTimeout() * 60 * 1000L;
+    }
     public String getFileStorePath(){
         String storePath = getServerConfig().getStore();
         File store = new File(storePath);

@@ -19,6 +19,7 @@ message Server{
     optional string salt = 3;
     optional string logback = 4 [default="config/logback.xml"];
     optional string store = 5 [default="store"];
+    optional int32 sessionTimeout = 6 [default=30];//minute
 }
 
 message WX{

@@ -8,6 +8,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionContext;
+import top.carljung.bill.config.Configuration;
 
 
 
@@ -16,8 +17,6 @@ import javax.servlet.http.HttpSessionContext;
  * @author wangchao
  */
 public class Session implements Principal, HttpSession{
-    public static final long ALIVE_TIME_MILLION = 30 * 60 * 1000;
-    public static final int ALIVE_TIME_SECOND = 30 * 60;
     private Map<String, Object> attributes = new ConcurrentHashMap<>();
     private String sessionId;
     private long creationTime;
@@ -35,7 +34,7 @@ public class Session implements Principal, HttpSession{
     }
     
     public boolean isAlive(){
-        return touchTime - System.currentTimeMillis() >= ALIVE_TIME_MILLION; 
+        return touchTime - System.currentTimeMillis() >= Configuration.instance.getSessionTimeoutMillis(); 
     }
     
     @Override
