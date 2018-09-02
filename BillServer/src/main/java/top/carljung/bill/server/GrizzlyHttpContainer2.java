@@ -84,7 +84,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import top.carljung.bill.config.Configuration;
 import top.carljung.bill.db.DBFactory;
-import top.carljung.bill.proto.ConfigStore;
+import top.carljung.bill.pack.FilePack;
 
 /**
  * Jersey {@code Container} implementation based on Grizzly {@link org.glassfish.grizzly.http.server.HttpHandler}.
@@ -397,29 +397,41 @@ public final class GrizzlyHttpContainer2 extends HttpHandler implements Containe
     }
 
     private boolean handleResourceRequest(final String path, final Request request, final Response response){
-        File resource = new File(Configuration.instance.getWebDir(), path);
-        final boolean exists = resource.exists();
-        final boolean isDirectory = resource.isDirectory();
+        final File webDir = Configuration.instance.getWebDir();
         boolean found = false;
         
-        if (exists) {
-            if (isDirectory) {
-                resource = new File(resource, "/index.html");
-                if (resource.exists()) {
-                    found = true;
-                }
-            } else {
-                found = true;
-            }  
-        }
-        
-        if (found) {
+        if (FilePack.isPackedFile(path)) {
+            found = true;
             try {
-                StaticHttpHandlerBase.sendFile(response, resource);
+                FilePack.sendFile(webDir, path,  response.getOutputStream());
             } catch (IOException ex) {
                 logger.warn("handle resource request fail: {}", path, ex);
             }
+        } else {
+            File resource = new File(webDir, path);
+            final boolean exists = resource.exists();
+            final boolean isIndexPage = resource.isDirectory();
+
+            if (exists) {
+                if (isIndexPage) {
+                    resource = new File(resource, "/index.html");
+                    if (resource.exists()) {
+                        found = true;
+                    }
+                } else {
+                    found = true;
+                }  
+            }
+
+            if (found) {
+                try {
+                    StaticHttpHandlerBase.sendFile(response, resource);
+                } catch (IOException ex) {
+                    logger.warn("handle resource request fail: {}", path, ex);
+                }
+            }
         }
+        
         return found;
     }
     
