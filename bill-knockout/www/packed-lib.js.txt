@@ -1,2 +1,5 @@
-./lib/js
+./lib/js/jquery-3.1.1.js
+./lib/js/knockout/knockout.debug.js
+./lib/js/sammy.js
+./lib/js/protobuf.js
 ./lib/bootstrap/js
