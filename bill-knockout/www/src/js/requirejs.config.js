@@ -9,10 +9,10 @@ requirejs.config({
     paths: {
         "text": "require/text",
         "css": "require/css",
-        "structure": "src/js/structure"
+        "pbStore": "src/js/pbStore"
     },
     shim:{
-        "structure":{
+        "pbStore":{
             deps: ["protobufjs/light"]
         }
     }

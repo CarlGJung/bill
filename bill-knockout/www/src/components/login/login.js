@@ -9,11 +9,15 @@ define(["knockout", "text!./login.html", "css!./login.css"], function(ko, htmlSt
             var user = pbStore.User.create({});
             user.username = self.username();
             user.password = self.password();
-            console.log(user);
+
             ajax({url: "/users/login", method: "POST", type:"application/x-protobuf", data: user.toArrayBuffer(), complete: function(data, xhr){
                 console.log(data);
                 console.log(xhr);
             }});
+        };
+        
+        this.gotoRegister = function(){
+            location.hash = "#register";
         };
     }
 

@@ -4,17 +4,12 @@
         <title>TODO supply a title</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="packed-css.css"/>
         <script src="packed-lib.js"></script>
         <script data-main="packed-app.js" src="require/require.js"></script>
         
     </head>
     <body>
-        <div class="page" data-bind="with: $root.page">
-            <div class="body">
-                <!-- ko component: $data.body --> <!-- /ko -->
-            </div>
-            <nav class="footer navbar fixed-bottom">
-            </nav>
-        </div>
+        <!-- ko component: $data.page --> <!-- /ko -->
     </body>
 </html>

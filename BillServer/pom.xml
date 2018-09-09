@@ -174,7 +174,7 @@
                             <arg line="--java_out=../java @java_protos"/>
                         </exec>
                         <exec executable="pbjs" dir="./src/main/resources">
-                            <arg line="-t json-module -r pbStore -w --force-long --force-message --no-comments  structure.proto -o ../../../../bill-knockout/www/src/js/structure.js"/>
+                            <arg line="-t json-module -r pbStore -w --force-long --force-message --no-comments  structure.proto -o ../../../../bill-knockout/www/src/js/pbStore.js"/>
                         </exec>
                     </target>
                   </configuration>
