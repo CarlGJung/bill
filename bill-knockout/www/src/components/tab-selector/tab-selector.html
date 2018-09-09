@@ -1,0 +1,12 @@
+<div class="tab-selector">
+    <ul data-bind="foreach: $data.params.tabs">
+        <li class="tab-item" 
+            data-bind="
+                text: $data.name,
+                css: {'selected': $data.value === $parent.params.value()},
+                click: $parent.params.onSelect
+            "
+        >
+        </li>
+    </ul>
+</div>

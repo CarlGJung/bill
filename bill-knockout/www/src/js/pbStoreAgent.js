@@ -38,6 +38,7 @@ function PbStoreAgent(pbStore, protobuf){
     };
 
     Bill.prototype.getLabel = function(labels){
+        labels = ko.unwrap(labels);
         if (!this._label && labels && labels.length) {
             for (let i = 0; i < labels.length && !this._label; i++) {
                 let label = labels[i];

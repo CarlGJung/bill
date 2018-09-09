@@ -1,0 +1,12 @@
+<div data-bind="attr:{id: $data.dialogId}" class="modal fade" tabIndex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+            <!-- ko template: {name: $data.header, data: $data.data} --> <!-- /ko -->
+        </div>
+        <div class="modal-body">
+            <!-- ko template: {name: $data.body, data: $data.data} --> <!-- /ko -->
+        </div>
+      </div>
+    </div>
+</div>

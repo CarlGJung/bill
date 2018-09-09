@@ -8,6 +8,10 @@ function SammyPage(){
             window.rootView.page("RegisterPage");
         });
         
+        this.get("#bill", function(){
+            window.rootView.page("BillPage");
+        });
+        
         this.get("/", function() {
             this.redirect("#login");
         });

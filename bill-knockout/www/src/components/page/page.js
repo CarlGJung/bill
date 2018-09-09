@@ -5,12 +5,12 @@ define(["knockout", "text!./page.html", "css!./page.css"], function(ko, htmlStri
         footer: ""
     };
     
-    function Page(props){
-        props = props || defaultProps;
+    function Page(params){
+        params = params || defaultProps;
         
-        this.data = props.data;
-        this.body = props.body;
-        this.footer = props.footer;
+        this.data = params.data;
+        this.body = params.body;
+        this.footer = params.footer;
     }
     
     return { viewModel: Page, template: htmlString };

@@ -1,0 +1,70 @@
+<!-- ko component: {
+    name: "Page", 
+    params: {body: "billList", footer: "footer", data: $data}}--> 
+<!-- /ko -->
+<!-- ko if: $data.showRecord -->
+    <!-- ko template: {name: "billRecord", data: $data.recordDialog}--> <!-- /ko -->
+<!-- /ko -->
+
+<template id="footer">
+    <button class="record btn btn-sm btn-primary" 
+            data-bind="click: $data.showRecordDialog">记账</button>
+</template>
+
+<template id="billList">
+    <ul data-bind="foreach: $data.bills">
+        <li>
+            <!-- ko template: {name: "billLabel", data: $data.getLabel($parent.allLabels)}--> <!-- /ko -->
+            <span data-bind="text: $data.getTypeName()"></span>
+            <span data-bind="text: $data.money"></span>
+        </li>
+    </ul>
+</template>
+
+<template id="billLabel">
+    <div data-bind="style: {color: $data.color}" >
+         <span data-bind="text: $data.name"></span>
+    </div>
+</template>
+
+<template id="billLabelList">
+    <ul data-bind="foreach: $data.labels">
+        <li data-bind="click: function(label){$parent.select(label);}">
+            <!-- ko template: {name: "billLabel", data: $data}--> <!-- /ko -->
+        </li>
+    </ul>
+</template>
+
+<template id="billRecord">
+<!-- ko component: {
+    name: "Dialog", 
+    params: {header: "dialogHeader", body: "dialogBody", 
+            onHide: $data.params.onHide, dialogRef: $data.getDialogReg,
+            dialogId: "bill-record", data: $data
+            }
+}--> 
+<!-- /ko -->
+</template>
+
+<template id="dialogHeader">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-3" data-dismiss="modal">取消</div>
+            <div class="col-6">
+                <!-- ko component: {
+                    name: "TabSelector", 
+                    params: {tabs: $data.billTabs, value: $data.type, onSelect: $data.onBillTypeChange}}--> 
+                <!-- /ko -->
+            </div>
+            <div class="col-3" data-bind="click: $data.recordBill">确定</div>
+        </div>
+    </div>
+</template>
+
+<template id="dialogBody">
+    <div>
+        <!-- ko template: {name: "billLabel", data: $data.selectedLabel}--> <!-- /ko -->
+        <input type="number" autofocus data-bind="value: $data.money"/>
+        <!-- ko template: {name: "billLabelList", data: {labels: $data.labels, select: $data.selectLabel}}--> <!-- /ko -->
+    </div>
+</template>

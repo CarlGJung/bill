@@ -1,0 +1,4 @@
+.tab-selector ul {border-radius: 2px; display: inline-block; border: 1px solid #999;}
+.tab-selector .tab-item {display: inline-block;}
+.tab-item~.tab-item {border-left: 1px solid;}
+.tab-selector .tab-item.selected{background-color: #007bff; color: #fff;}

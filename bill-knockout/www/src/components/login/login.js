@@ -10,14 +10,19 @@ define(["knockout", "text!./login.html", "css!./login.css"], function(ko, htmlSt
             user.username = self.username();
             user.password = self.password();
 
-            ajax({url: "/users/login", method: "POST", type:"application/x-protobuf", data: user.toArrayBuffer(), complete: function(data, xhr){
+            ajax({url: "/users/login", method: "POST", type:"application/x-protobuf", data: user.toArrayBuffer(), success: function(data, xhr){
                 console.log(data);
                 console.log(xhr);
+                self.gotoBillPage();
             }});
         };
         
-        this.gotoRegister = function(){
+        self.gotoRegister = function(){
             location.hash = "#register";
+        };
+        
+        self.gotoBillPage = function(){
+            location.hash = "#bill";
         };
     }
 
