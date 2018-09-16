@@ -10,10 +10,10 @@ define(["knockout", "text!./bill.html", "css!./bill.css"], function(ko, htmlStri
                 allLabels(labels.labels);
                 allLabels().forEach(function(label){
                     switch(label.type){
-                        case window.pbStore.BillType.PAYMENT:
+                        case window.pbStore.BillType.PAYMENT.value:
                             paymentLabels.push(label);
                             break;
-                        case window.pbStore.BillType.INCOME:
+                        case window.pbStore.BillType.INCOME.value:
                             incomeLabels.push(label);
                             break;
                         default:;    
@@ -29,9 +29,7 @@ define(["knockout", "text!./bill.html", "css!./bill.css"], function(ko, htmlStri
             }
         }
     }
-    
-    getLabels();
-    
+        
     function BillPage(params){
         var self = this;
         
@@ -59,7 +57,7 @@ define(["knockout", "text!./bill.html", "css!./bill.css"], function(ko, htmlStri
             self.getBillList();
         };
         
-        self.getBillList();
+        getLabels(self.getBillList);
     }
     
     var defaultProps = {
@@ -84,7 +82,7 @@ define(["knockout", "text!./bill.html", "css!./bill.css"], function(ko, htmlStri
         Object.keys(window.pbStore.BillType).forEach(function(key){
             var value = window.pbStore.BillType[key];
             if (value > 0) {
-                self.billTabs.push({"value": value, "name": window.pbStore.Bill.getTypeName(value)});
+                self.billTabs.push({"value": value, "name": value.getName()});
             }
         });
         
@@ -108,13 +106,13 @@ define(["knockout", "text!./bill.html", "css!./bill.css"], function(ko, htmlStri
         self.recordBill = function(){
             if (self.money() > 0) {
                 var bill = window.pbStore.Bill.create({
-                    type: self.type()
+                    type: self.type().value
                   , money: self.money()
                   , labelId: self.selectedLabel().id
                 });
                 
                 self.dialog.modal("hide");
-                self.money(0);
+                self.money("");
                 ajax({url: "bills/record", method: "POST", type: "application/x-protobuf", data: bill.toArrayBuffer(), success: function(data){
 
                 }});
@@ -130,7 +128,7 @@ define(["knockout", "text!./bill.html", "css!./bill.css"], function(ko, htmlStri
             self.selectedLabel(label);
         };
         
-        self.getBillLabels();
+        getLabels(self.getBillLabels);
     };
     
     return {viewModel: BillPage, template: htmlString};
