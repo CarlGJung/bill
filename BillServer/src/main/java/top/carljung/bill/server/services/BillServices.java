@@ -3,6 +3,7 @@ package top.carljung.bill.server.services;
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -14,7 +15,6 @@ import javax.ws.rs.core.SecurityContext;
 import org.glassfish.grizzly.http.server.Request;
 import top.carljung.bill.db.Bill;
 import top.carljung.bill.db.BillLabel;
-import top.carljung.bill.db.User;
 import top.carljung.bill.proto.PBStore;
 import top.carljung.bill.server.MediaType;
 import top.carljung.bill.server.Session;
@@ -71,5 +71,16 @@ public class BillServices {
         }
         
         return PBStore.BillLabelList.getDefaultInstance();
+    }
+    
+    @DELETE
+    @Path("/{id}")
+    public Response deleteBills(@PathParam("id") int id){
+        Session session = (Session)securityContext.getUserPrincipal();
+        if (session != null) {
+            Bill.deleteById(id);
+        }
+        
+        return Response.ok().build();
     }
 }

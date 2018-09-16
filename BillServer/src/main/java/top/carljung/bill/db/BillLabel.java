@@ -76,7 +76,7 @@ public class BillLabel extends Model{
     public PBStore.BillLabel.Builder toPBLabel(){
         PBStore.BillLabel.Builder pbLabel = PBStore.BillLabel.newBuilder();
         pbLabel.setId(this.getLabelId());
-        pbLabel.setType(this.getType());
+        pbLabel.setTypeValue(this.getType());
         pbLabel.setName(this.getName());
         pbLabel.setColor(this.getColor());
         pbLabel.setIcon(this.getIcon());
@@ -87,7 +87,7 @@ public class BillLabel extends Model{
     public static PBStore.BillLabelList.Builder getLabels(int userId, int type){
         PBStore.BillLabelList.Builder pbLabels = PBStore.BillLabelList.newBuilder();
         List<BillLabel> billLabels;
-        if (type > PBStore.BillType.UNKNOW_VALUE ) {
+        if (type > PBStore.BillType.UNKNOW_BillType_VALUE ) {
             billLabels = BillLabel.find("(user_id = ? OR user_id = ? ) AND type = ?", userId, ALL_USER, type);
         } else {
             billLabels = BillLabel.find("(user_id = ? OR user_id = ? )", userId, ALL_USER);

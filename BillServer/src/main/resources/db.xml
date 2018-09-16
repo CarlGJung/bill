@@ -39,6 +39,7 @@
             <column name="label_id" type="int" />
             <column name="type" type="smallint" />
             <column name="money" type="${money}"></column>
+            <column name="state" type="smallint" defaultValueNumeric="1"/>
             <column name="created_at" type="datetime" />
             <column name="updated_at" type="datetime" />
         </createTable>

@@ -34,9 +34,16 @@
       },
       BillType: {
         values: {
-          UNKNOW: 0,
+          UNKNOW_BillType: 0,
           INCOME: 1,
           PAYMENT: 2
+        }
+      },
+      DataState: {
+        values: {
+          UNKNOW_DataState: 0,
+          ACTIVED: 1,
+          DELETED: 2
         }
       },
       Bill: {
@@ -75,7 +82,7 @@
             id: 1
           },
           type: {
-            type: "int32",
+            type: "BillType",
             id: 2
           },
           name: {

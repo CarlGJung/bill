@@ -12,18 +12,23 @@
 </template>
 
 <template id="billList">
-    <ul data-bind="foreach: $data.bills">
+    <ul class="bill-list" data-bind="foreach: $data.bills">
         <li>
             <!-- ko template: {name: "billLabel", data: $data.getLabel($parent.allLabels)}--> <!-- /ko -->
-            <span data-bind="text: $data.getTypeName()"></span>
-            <span data-bind="text: $data.money"></span>
+            <div class="bill-prop">
+                <span data-bind="text: $data.getTypeName()"></span>
+                <span data-bind="text: $data.money"></span>
+            </div>
+            <div class="bill-operate">
+                <span data-bind="click: $parent.deleteBill">删除</span>
+            </div>
         </li>
     </ul>
 </template>
 
 <template id="billLabel">
-    <div data-bind="style: {color: $data.color}" >
-         <span data-bind="text: $data.name"></span>
+    <div class="bill-label" data-bind="style: {color: $data.color}" >
+         <span data-bind="text: $data.name, style: {color: $data.color}"></span>
     </div>
 </template>
 

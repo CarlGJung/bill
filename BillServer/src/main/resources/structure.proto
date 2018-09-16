@@ -9,9 +9,15 @@ message User{
 }
 
 enum BillType{
-    UNKNOW = 0;
+    UNKNOW_BillType = 0;
     INCOME = 1;
     PAYMENT = 2;
+}
+
+enum DataState{
+    UNKNOW_DataState = 0;
+    ACTIVED = 1;
+    DELETED = 2;
 }
 
 message Bill{
@@ -27,7 +33,7 @@ message BillList{
 
 message BillLabel{
     int32 id = 1;
-    int32 type = 2;
+    BillType type = 2;
     string name = 3;
     string color = 4;
     string icon = 5;

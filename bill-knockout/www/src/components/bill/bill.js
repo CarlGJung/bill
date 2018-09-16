@@ -5,7 +5,7 @@ define(["knockout", "text!./bill.html", "css!./bill.css"], function(ko, htmlStri
     
     function getLabels(callback){
         if (!allLabels().length) {
-            ajax({url: "bills/labels/" + window.pbStore.BillType.UNKNOW, method: "GET", accept: "application/x-protobuf", success: function(data){
+            ajax({url: "bills/labels/" + window.pbStore.BillType.UNKNOW_BillType, method: "GET", accept: "application/x-protobuf", success: function(data){
                 var labels = window.pbStore.BillLabelList.decode(data);
                 allLabels(labels.labels);
                 allLabels().forEach(function(label){
@@ -39,7 +39,7 @@ define(["knockout", "text!./bill.html", "css!./bill.css"], function(ko, htmlStri
         self.showRecord = ko.observable(false);
         
         self.getBillList = function(){
-            ajax({url: "bills/bills", accept: "application/x-protobuf", success: (data, xhr)=>{
+            ajax({url: "bills/bills", accept: "application/x-protobuf", success: function(data, xhr){
                 var bills = window.pbStore.BillList.decode(data);
                 self.bills(bills.bills);
             }});
@@ -55,6 +55,12 @@ define(["knockout", "text!./bill.html", "css!./bill.css"], function(ko, htmlStri
         self.onRecordDialogHide = function(){
             self.showRecord(false);
             self.getBillList();
+        };
+        
+        self.deleteBill = function(bill){
+            ajax({url: "bills/" + bill.id, method: "DELETE", success: function(){
+                self.getBillList();
+            }});
         };
         
         getLabels(self.getBillList);

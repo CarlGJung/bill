@@ -17,6 +17,7 @@ public class Bill extends Model{
     public static final String LABEL_ID = "label_id";
     public static final String TYPE = "type";
     public static final String MONEY = "money";
+    public static final String STATE = "state";
     public static final String CREATED_AT = "created_at";
     
     public int getBillId(){
@@ -64,11 +65,15 @@ public class Bill extends Model{
     
     public static PBStore.BillList.Builder getBillList(int userId){
         PBStore.BillList.Builder billList = PBStore.BillList.newBuilder();
-        List<Bill> bills = Bill.find("user_id = ? ORDER BY created_at DESC", userId);
+        List<Bill> bills = Bill.find("user_id = ? AND state = ? ORDER BY created_at DESC", userId, PBStore.DataState.ACTIVED_VALUE);
         
         for (Bill dbBill : bills) {
             billList.addBills(dbBill.toPBBill());
         }
         return billList;
+    }
+    
+    public static void deleteById(int id){
+        Bill.update("state = ?", "id = ?", PBStore.DataState.DELETED_VALUE, id);
     }
 }
