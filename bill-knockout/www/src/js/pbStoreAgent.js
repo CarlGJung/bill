@@ -53,7 +53,6 @@ function PbStoreAgent(pbStore, protobuf){
     var Message = protobuf.Message;
     
     Message.prototype.toArrayBuffer = function(){
-        this.prepare();
         var unwrapedMsg = this.unwrap();
         if (debug) {
             var errors = this.$type.verify(unwrapedMsg);
@@ -68,6 +67,7 @@ function PbStoreAgent(pbStore, protobuf){
     };
     
     Message.prototype.unwrap = function(){
+        this.prepare();
         var unwraped = {};
         this.getDeclaredFileds().forEach((field) => {
             unwraped[field] = typeof this[field] === "function" ? this[field]() : this[field];
