@@ -53,32 +53,50 @@ function PbStoreAgent(pbStore, protobuf){
     var Message = protobuf.Message;
     
     Message.prototype.toArrayBuffer = function(){
+        this.prepare();
+        var unwrapedMsg = this.unwrap();
         if (debug) {
-            var errors = this.$type.verify(this);
+            var errors = this.$type.verify(unwrapedMsg);
             if (errors) {
                 throw new Error(errors);
             }
         }
-        return this.$type.encode(this).finish();
+        return this.$type.encode(unwrapedMsg).finish();
     };
-
+    
+    Message.prototype.prepare = function(){
+    };
+    
+    Message.prototype.unwrap = function(){
+        var unwraped = {};
+        this.getDeclaredFileds().forEach((field) => {
+            unwraped[field] = typeof this[field] === "function" ? this[field]() : this[field];
+        });
+        return unwraped;
+    };
+    
     Message.prototype.getDeclaredFileds = function(){
         return Object.keys(this.$type.fields);
     };
 
-    Message.prototype.assignDeclaredFileds = function(options={}){
+    Message.prototype.assignUndeclaredFileds = function(options={}){
         const declaredFileds = this.getDeclaredFileds();
         declaredFileds.forEach((field)=>{
-            this[field] = options[field];
+            if (!this.hasOwnProperty(field)) {
+                this[field] = options[field];
+            }
         });
     };
-
+    
     pbStore.User = pbStore.lookupType("User").ctor;
 
-    function Bill(options={}){
-        this.assignDeclaredFileds(options);
+    function Bill(options={money: "", type: window.pbStore.BillType.PAYMENT, labelId: 0, time: 0}){
+        this.money = ko.observable(options.money);
+        this.type = ko.observable(options.type);
+        this.time = ko.observable(options.time);
+        this.label = ko.observable(null);
         this.typeEnum = null;
-        this._label = null;
+        this.assignUndeclaredFileds(options);
     }
 
     pbStore.lookupType("Bill").ctor = Bill;
@@ -92,22 +110,25 @@ function PbStoreAgent(pbStore, protobuf){
         }
     });
     
+    Bill.prototype.prepare = function(){
+        this.labelId = this.label().id;
+    };
+    
     Bill.prototype.getTypeName = function(){
         return this.typeEnum.getName();
     };
 
     Bill.prototype.getLabel = function(labels){
-        labels = ko.unwrap(labels);
-        if (!this._label && labels && labels.length) {
-            for (let i = 0; i < labels.length && !this._label; i++) {
+        if (!this.label() && (labels = ko.unwrap(labels)) && labels.length) {
+            for (let i = 0; i < labels.length && !this.label(); i++) {
                 let label = labels[i];
 
                 if (label.id === this.labelId) {
-                    this._label = label;
+                    this.label(label);
                 }
             }
 
         }
-        return this._label;
+        return this.label();
     };
 };

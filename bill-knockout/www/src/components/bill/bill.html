@@ -45,7 +45,7 @@
             <div class="col-6">
                 <!-- ko component: {
                     name: "tab-selector", 
-                    params: {tabs: $data.billTabs, value: $data.type, onSelect: $data.onBillTypeChange}}--> 
+                    params: {tabs: $data.billTabs, value: $data.bill.type, onSelect: $data.onBillTypeChange}}--> 
                 <!-- /ko -->
             </div>
             <div class="col-3" data-bind="click: $data.recordBill">确定</div>
@@ -55,8 +55,8 @@
 
 <template id="recordDialogBody">
     <div>
-        <!-- ko template: {name: "billLabel", data: $data.selectedLabel}--> <!-- /ko -->
-        <input type="number" autofocus data-bind="value: $data.money"/>
+        <!-- ko template: {name: "billLabel", data: $data.bill.label}--> <!-- /ko -->
+        <input type="number" autofocus data-bind="value: $data.bill.money"/>
         <!-- ko template: {name: "billLabelList", data: {labels: $data.labels, select: $data.selectLabel}}--> <!-- /ko -->
     </div>
 </template>

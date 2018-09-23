@@ -71,9 +71,7 @@ define(["knockout", "text!./bill.html", "css!./bill.css"], function(ko, htmlStri
     function RecordDialog(params){
         var self = this;
         self.params = params || {};
-        self.money = ko.observable("");
-        self.type = ko.observable(window.pbStore.BillType.PAYMENT);
-        self.selectedLabel = ko.observable({});
+        self.bill = new pbStore.Bill();
         self.labels = ko.observableArray([]);
         self.header = "recordDialogHeader";
         self.body = "recordDialogBody";
@@ -96,7 +94,7 @@ define(["knockout", "text!./bill.html", "css!./bill.css"], function(ko, htmlStri
         self.getBillLabels = function(){
             var labels = [];
 
-            switch(self.type()){
+            switch(self.bill.type()){
                 case window.pbStore.BillType.PAYMENT:
                     labels = paymentLabels;
                     break;
@@ -107,32 +105,25 @@ define(["knockout", "text!./bill.html", "css!./bill.css"], function(ko, htmlStri
             }
             
             self.labels(labels);
-            self.selectedLabel(labels[0]);
+            self.bill.label(labels[0]);
         };
     
         self.recordBill = function(){
-            if (self.money() > 0) {
-                var bill = window.pbStore.Bill.create({
-                    type: self.type().value
-                  , money: self.money()
-                  , labelId: self.selectedLabel().id
-                });
-                
+            if (self.bill.money() > 0) {
                 self.dialog.modal("hide");
-                self.money("");
-                ajax({url: "bills/record", method: "PUT", type: "application/x-protobuf", data: bill.toArrayBuffer(), success: function(data){
+                ajax({url: "bills/record", method: "PUT", type: "application/x-protobuf", data: self.bill.toArrayBuffer(), success: function(data){
 
                 }});
             }
         };
     
         self.onBillTypeChange = function(type){
-            self.type(type.value);
+            self.bill.type(type.value);
             self.getBillLabels();
         };
     
         self.selectLabel = function(label){
-            self.selectedLabel(label);
+            self.bill.label(label);
         };
         
         getLabels(self.getBillLabels);
