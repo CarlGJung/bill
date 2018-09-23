@@ -13,7 +13,7 @@ import top.carljung.bill.proto.PBStore;
 public class BillLabel extends Model{
     public static final String ID = "id";
     public static final String USER_ID = "user_id";
-    public static final String TYPE = "type";
+    public static final String TYPE = "bill_label_type";
     public static final String NAME = "name";
     public static final String COLOR = "color";
     public static final String ICON = "icon";
@@ -88,7 +88,7 @@ public class BillLabel extends Model{
         PBStore.BillLabelList.Builder pbLabels = PBStore.BillLabelList.newBuilder();
         List<BillLabel> billLabels;
         if (type > PBStore.BillType.UNKNOW_BillType_VALUE ) {
-            billLabels = BillLabel.find("(user_id = ? OR user_id = ? ) AND type = ?", userId, ALL_USER, type);
+            billLabels = BillLabel.find("(user_id = ? OR user_id = ? ) AND bill_label_type = ?", userId, ALL_USER, type);
         } else {
             billLabels = BillLabel.find("(user_id = ? OR user_id = ? )", userId, ALL_USER);
         }

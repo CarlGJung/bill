@@ -6,6 +6,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -46,7 +47,7 @@ public class BillServices {
         return bills.build();
     } 
     
-    @POST
+    @PUT
     @Path("/record")
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_PROTOBUF})
     public Response recordBill(PBStore.Bill bill){
@@ -56,8 +57,37 @@ public class BillServices {
             dbBill.setType(bill.getTypeValue());
             dbBill.setLabelId(bill.getLabelId());
             dbBill.setMoney(bill.getMoney());
+            dbBill.setTime(bill.getTime() > 0 ? bill.getTime() : System.currentTimeMillis());
             dbBill.saveIt();
         }
+        return Response.ok().build();
+    }
+    
+    @POST
+    @Path("/bills")
+    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_PROTOBUF})
+    public Response updateBills(PBStore.Bill bill){
+        Session session = (Session)securityContext.getUserPrincipal();
+        if (session != null && bill.getId() > 0) {
+            Bill dbBill = Bill.getActivedBill(bill.getId(), session.getUserId());
+            dbBill.setMoney(bill.getMoney());
+            dbBill.setTime(bill.getTime());
+            dbBill.setLabelId(bill.getLabelId());
+            dbBill.setType(bill.getTypeValue());
+            dbBill.saveIt();
+        }
+        
+        return Response.ok().build();
+    }
+    
+    @DELETE
+    @Path("/{id}")
+    public Response deleteBills(@PathParam("id") int id){
+        Session session = (Session)securityContext.getUserPrincipal();
+        if (session != null) {
+            Bill.deleteById(id);
+        }
+        
         return Response.ok().build();
     }
     
@@ -73,14 +103,4 @@ public class BillServices {
         return PBStore.BillLabelList.getDefaultInstance();
     }
     
-    @DELETE
-    @Path("/{id}")
-    public Response deleteBills(@PathParam("id") int id){
-        Session session = (Session)securityContext.getUserPrincipal();
-        if (session != null) {
-            Bill.deleteById(id);
-        }
-        
-        return Response.ok().build();
-    }
 }

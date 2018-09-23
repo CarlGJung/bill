@@ -1,9 +1,6 @@
 <!-- ko component: {
-    name: "Page", 
+    name: "page", 
     params: {body: "billList", footer: "footer", data: $data}}--> 
-<!-- /ko -->
-<!-- ko if: $data.showRecord -->
-    <!-- ko template: {name: "billRecord", data: $data.recordDialog}--> <!-- /ko -->
 <!-- /ko -->
 
 <template id="footer">
@@ -20,6 +17,7 @@
                 <span data-bind="text: $data.money"></span>
             </div>
             <div class="bill-operate">
+                <span data-bind="click: $parent.prepareUpdateBill">编辑</span>
                 <span data-bind="click: $parent.deleteBill">删除</span>
             </div>
         </li>
@@ -40,24 +38,13 @@
     </ul>
 </template>
 
-<template id="billRecord">
-<!-- ko component: {
-    name: "Dialog", 
-    params: {header: "dialogHeader", body: "dialogBody", 
-            onHide: $data.params.onHide, dialogRef: $data.getDialogReg,
-            dialogId: "bill-record", data: $data
-            }
-}--> 
-<!-- /ko -->
-</template>
-
-<template id="dialogHeader">
+<template id="recordDialogHeader">
     <div class="container-fluid">
         <div class="row">
             <div class="col-3" data-dismiss="modal">取消</div>
             <div class="col-6">
                 <!-- ko component: {
-                    name: "TabSelector", 
+                    name: "tab-selector", 
                     params: {tabs: $data.billTabs, value: $data.type, onSelect: $data.onBillTypeChange}}--> 
                 <!-- /ko -->
             </div>
@@ -66,7 +53,7 @@
     </div>
 </template>
 
-<template id="dialogBody">
+<template id="recordDialogBody">
     <div>
         <!-- ko template: {name: "billLabel", data: $data.selectedLabel}--> <!-- /ko -->
         <input type="number" autofocus data-bind="value: $data.money"/>

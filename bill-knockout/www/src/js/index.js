@@ -4,7 +4,8 @@ requirejs(["pbStore", "protobufjs/light"],function(pbStore, protobuf){
     
     function RootView(){
         window.rootView = this;
-        this.page = ko.observable("LoginPage");
+        DialogAgent.call(this);
+        this.page = ko.observable("login-page");
         this.app = new SammyPage();
     }
 

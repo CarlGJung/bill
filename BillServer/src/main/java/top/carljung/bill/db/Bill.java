@@ -15,9 +15,10 @@ public class Bill extends Model{
     public static final String ID = "id";
     public static final String USER_ID = "user_id";
     public static final String LABEL_ID = "label_id";
-    public static final String TYPE = "type";
+    public static final String TYPE = "bill_type";
     public static final String MONEY = "money";
     public static final String STATE = "state";
+    public static final String BILL_TIME = "bill_time";
     public static final String CREATED_AT = "created_at";
     
     public int getBillId(){
@@ -47,6 +48,12 @@ public class Bill extends Model{
     public double getMoney(){
         return getDouble(MONEY);
     }
+    public long getTime(){
+        return getLong(BILL_TIME);
+    }
+    public void setTime(long time){
+        setLong(BILL_TIME, time);
+    }
     public Date getCreatedAt(){
         return getDate(CREATED_AT);
     }
@@ -60,6 +67,7 @@ public class Bill extends Model{
         bill.setTypeValue(this.getType());
         bill.setLabelId(this.getLabelId());
         bill.setMoney(this.getMoney());
+        bill.setTime(this.getTime());
         return bill;
     }
     
@@ -71,6 +79,10 @@ public class Bill extends Model{
             billList.addBills(dbBill.toPBBill());
         }
         return billList;
+    }
+    
+    public static Bill getActivedBill(int billId, int userId){
+        return Bill.findFirst("id = ? AND user_id = ? AND state = ?", billId, userId, PBStore.DataState.ACTIVED_VALUE);
     }
     
     public static void deleteById(int id){

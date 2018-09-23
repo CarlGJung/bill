@@ -25,6 +25,7 @@ message Bill{
     BillType type = 2;
     int32 labelId = 3;
     double money = 4;
+    int64 time = 5;
 }
 
 message BillList{

@@ -1,15 +1,15 @@
 function SammyPage(){
     var sammy = Sammy(function() {
         this.get("#login", function() {
-            window.rootView.page("LoginPage");
+            window.rootView.page("login-page");
         });
         
         this.get("#register", function(){
-            window.rootView.page("RegisterPage");
+            window.rootView.page("register-page");
         });
         
         this.get("#bill", function(){
-            window.rootView.page("BillPage");
+            window.rootView.page("bill-page");
         });
         
         this.get("/", function() {

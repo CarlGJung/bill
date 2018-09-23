@@ -63,6 +63,10 @@
           money: {
             type: "double",
             id: 4
+          },
+          time: {
+            type: "int64",
+            id: 5
           }
         }
       },

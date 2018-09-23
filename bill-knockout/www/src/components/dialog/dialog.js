@@ -1,4 +1,4 @@
-define(["knockout", "text!./dialog.html"], function(ko, htmlString) {
+define(["knockout", "text!./dialog.html", "css!./dialog.css"], function(ko, htmlString) {
     var defaultProps = {
         dialogId: "",
         header: null,
@@ -23,6 +23,8 @@ define(["knockout", "text!./dialog.html"], function(ko, htmlString) {
         self.$modal;
         if (componentInfo.element.nodeType === 8) {//comment
             self.$modal = $(componentInfo.element.nextElementSibling);
+        } else if (componentInfo.element.tagName === "MODAL-DIALOG") {//custom elements
+            self.$modal = $(componentInfo.element.firstElementChild);
         } else {
             self.$modal = $(componentInfo.element);
         }

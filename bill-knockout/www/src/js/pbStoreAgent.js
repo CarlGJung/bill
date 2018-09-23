@@ -21,7 +21,7 @@ function PbStoreAgent(pbStore, protobuf){
                     + "    Enum.apply(this, arguments); "
                     + "} ";
         var enumType = scope[typeName] = Function("Enum", source)(Enum);
-        enumType.prototype = Enum.prototype;
+        enumType.prototype = new Enum();
         enumType.values = [];
         enumType.valuesById = {};
         enumType.fromNumber = function(value){

@@ -35,8 +35,6 @@ define(["knockout", "text!./bill.html", "css!./bill.css"], function(ko, htmlStri
         
         self.bills = ko.observableArray([]);
         self.allLabels = allLabels;
-        self.recordDialog = null;
-        self.showRecord = ko.observable(false);
         
         self.getBillList = function(){
             ajax({url: "bills/bills", accept: "application/x-protobuf", success: function(data, xhr){
@@ -45,15 +43,15 @@ define(["knockout", "text!./bill.html", "css!./bill.css"], function(ko, htmlStri
             }});
         };
     
+        self.recordDialog = null;
         self.showRecordDialog = function(){
             if (!self.recordDialog) {
                 self.recordDialog = new RecordDialog({onHide: self.onRecordDialogHide});
             }
-            self.showRecord(true);
+            rootView.showDialog(self.recordDialog);
         };
     
         self.onRecordDialogHide = function(){
-            self.showRecord(false);
             self.getBillList();
         };
         
@@ -63,26 +61,29 @@ define(["knockout", "text!./bill.html", "css!./bill.css"], function(ko, htmlStri
             }});
         };
         
+        self.prepareUpdateBill = function(bill){
+            
+        };
+        
         getLabels(self.getBillList);
     }
     
-    var defaultProps = {
-        onHide: null
-    };
-    
     function RecordDialog(params){
         var self = this;
-        self.params = params || defaultProps;
+        self.params = params || {};
         self.money = ko.observable("");
         self.type = ko.observable(window.pbStore.BillType.PAYMENT);
         self.selectedLabel = ko.observable({});
         self.labels = ko.observableArray([]);
+        self.header = "recordDialogHeader";
+        self.body = "recordDialogBody";
+        self.onHide = params.onHide;
         self.dialog = null;
-        
-        self.getDialogReg = function(dialogRef){
+        self.dialogRef = function(dialogRef){
             self.dialog = dialogRef;
-        };
-        
+        };;
+        self.dialogId = "bill-record";
+            
         self.billTabs = ko.observableArray([]);
         
         Object.keys(window.pbStore.BillType).forEach(function(key){
@@ -119,7 +120,7 @@ define(["knockout", "text!./bill.html", "css!./bill.css"], function(ko, htmlStri
                 
                 self.dialog.modal("hide");
                 self.money("");
-                ajax({url: "bills/record", method: "POST", type: "application/x-protobuf", data: bill.toArrayBuffer(), success: function(data){
+                ajax({url: "bills/record", method: "PUT", type: "application/x-protobuf", data: bill.toArrayBuffer(), success: function(data){
 
                 }});
             }

@@ -1,6 +1,7 @@
 ./src/js/ajax.js
 ./src/js/requirejs.config.js
 ./src/js/ko
+./src/js/dialog.js
 ./src/js/index.js
 ./src/js/page.js
 ./src/js/pbStoreAgent.js

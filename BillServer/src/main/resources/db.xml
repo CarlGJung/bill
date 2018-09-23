@@ -37,8 +37,9 @@
             </column>
             <column name="user_id" type="int" />
             <column name="label_id" type="int" />
-            <column name="type" type="smallint" />
+            <column name="bill_type" type="smallint" />
             <column name="money" type="${money}"></column>
+            <column name="bill_time" type="bigint"></column>
             <column name="state" type="smallint" defaultValueNumeric="1"/>
             <column name="created_at" type="datetime" />
             <column name="updated_at" type="datetime" />
@@ -51,7 +52,7 @@
                 <constraints primaryKey="true" nullable="false" />
             </column>
             <column name="user_id" type="int" />
-            <column name="type" type="smallint" />
+            <column name="bill_label_type" type="smallint" />
             <column name="name" type="varchar(50)" />
             <column name="color" type="varchar(50)" defaultValue="''"/>
             <column name="icon" type="varchar(50)" defaultValue="''"/>
@@ -63,10 +64,10 @@
     
     <changeSet id="addDefaultBillLabels" author="wangchao">
         <sql stripComments="true">
-            INSERT INTO bill_labels (user_id, type, name, color) VALUES (-1, 1, "工资", "#ffac38");
-            INSERT INTO bill_labels (user_id, type, name, color) VALUES (-1, 2, "吃喝", "#ff8547");
-            INSERT INTO bill_labels (user_id, type, name, color) VALUES (-1, 2, "医疗", "#f54545");
-            INSERT INTO bill_labels (user_id, type, name, color) VALUES (-1, 2, "交通", "#8eb9f5");
+            INSERT INTO bill_labels (user_id, bill_label_type, name, color) VALUES (-1, 1, "工资", "#ffac38");
+            INSERT INTO bill_labels (user_id, bill_label_type, name, color) VALUES (-1, 2, "吃喝", "#ff8547");
+            INSERT INTO bill_labels (user_id, bill_label_type, name, color) VALUES (-1, 2, "医疗", "#f54545");
+            INSERT INTO bill_labels (user_id, bill_label_type, name, color) VALUES (-1, 2, "交通", "#8eb9f5");
         </sql>
     </changeSet>
 </databaseChangeLog>
