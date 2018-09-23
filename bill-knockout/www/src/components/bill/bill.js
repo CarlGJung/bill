@@ -43,12 +43,8 @@ define(["knockout", "text!./bill.html", "css!./bill.css"], function(ko, htmlStri
             }});
         };
     
-        self.recordDialog = null;
         self.showRecordDialog = function(){
-            if (!self.recordDialog) {
-                self.recordDialog = new RecordDialog({onHide: self.onRecordDialogHide});
-            }
-            rootView.showDialog(self.recordDialog);
+            rootView.showDialog(new RecordDialog({onHide: self.onRecordDialogHide}));
         };
     
         self.onRecordDialogHide = function(){
@@ -62,7 +58,7 @@ define(["knockout", "text!./bill.html", "css!./bill.css"], function(ko, htmlStri
         };
         
         self.prepareUpdateBill = function(bill){
-            
+            rootView.showDialog(new RecordDialog({onHide: self.onRecordDialogHide, bill: bill.makeObservable(true)}));
         };
         
         getLabels(self.getBillList);
@@ -71,11 +67,12 @@ define(["knockout", "text!./bill.html", "css!./bill.css"], function(ko, htmlStri
     function RecordDialog(params){
         var self = this;
         self.params = params || {};
-        self.bill = new pbStore.Bill();
+        self.onHide = params.onHide;
+        self.bill = params.bill || new pbStore.Bill().makeObservable();
+        self.success = !params.bill ? recordBill : updateBill;
         self.labels = ko.observableArray([]);
         self.header = "recordDialogHeader";
         self.body = "recordDialogBody";
-        self.onHide = params.onHide;
         self.dialog = null;
         self.dialogRef = function(dialogRef){
             self.dialog = dialogRef;
@@ -105,15 +102,8 @@ define(["knockout", "text!./bill.html", "css!./bill.css"], function(ko, htmlStri
             }
             
             self.labels(labels);
-            self.bill.label(labels[0]);
-        };
-    
-        self.recordBill = function(){
-            if (self.bill.money() > 0) {
-                self.dialog.modal("hide");
-                ajax({url: "bills/record", method: "PUT", type: "application/x-protobuf", data: self.bill.toArrayBuffer(), success: function(data){
-
-                }});
+            if (!self.bill.label()) {
+                self.bill.label(labels[0]);
             }
         };
     
@@ -127,6 +117,24 @@ define(["knockout", "text!./bill.html", "css!./bill.css"], function(ko, htmlStri
         };
         
         getLabels(self.getBillLabels);
+        
+        function recordBill(){
+            if (self.bill.money() > 0) {
+                self.dialog.modal("hide");
+                ajax({url: "bills/record", method: "PUT", type: "application/x-protobuf", data: self.bill.toArrayBuffer(), success: function(data){
+
+                }});
+            }
+        };
+        
+        function updateBill(){
+            if (self.bill.money() > 0) {
+                self.dialog.modal("hide");
+                ajax({url: "bills/bills", method: "POST", type: "application/x-protobuf", data: self.bill.toArrayBuffer(), success: function(data){
+
+                }});
+            }
+        }
     };
     
     return {viewModel: BillPage, template: htmlString};

@@ -91,11 +91,9 @@ function PbStoreAgent(pbStore, protobuf){
     pbStore.User = pbStore.lookupType("User").ctor;
 
     function Bill(options={money: "", type: window.pbStore.BillType.PAYMENT, labelId: 0, time: 0}){
-        this.money = ko.observable(options.money);
-        this.type = ko.observable(options.type);
-        this.time = ko.observable(options.time);
-        this.label = ko.observable(null);
+        this.label = null;
         this.typeEnum = null;
+        this.editModal = false;
         this.assignUndeclaredFileds(options);
     }
 
@@ -110,6 +108,16 @@ function PbStoreAgent(pbStore, protobuf){
         }
     });
     
+    Bill.prototype.makeObservable = function(clone){
+        var o = clone ? new Bill(this) : this;
+        o.money = ko.observable(this.money);
+        o.type = ko.observable(this.typeEnum);
+        o.time = ko.observable(this.time);
+        o.label = ko.observable(this.label);
+        o.editModal = true;
+        return o;
+    };
+    
     Bill.prototype.prepare = function(){
         this.labelId = this.label().id;
     };
@@ -119,16 +127,20 @@ function PbStoreAgent(pbStore, protobuf){
     };
 
     Bill.prototype.getLabel = function(labels){
-        if (!this.label() && (labels = ko.unwrap(labels)) && labels.length) {
-            for (let i = 0; i < labels.length && !this.label(); i++) {
+        if (this.editModal) {
+            return this.label();
+        }
+        
+        if (!this.label && (labels = ko.unwrap(labels)) && labels.length) {
+            for (let i = 0; i < labels.length && !this.label; i++) {
                 let label = labels[i];
 
                 if (label.id === this.labelId) {
-                    this.label(label);
+                    this.label = label;
                 }
             }
 
         }
-        return this.label();
+        return this.label;
     };
 };
