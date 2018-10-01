@@ -28,6 +28,17 @@ message Bill{
     int64 time = 5;
 }
 
+message BillDaily{
+    string date = 1;
+    double income = 2;
+    double payment = 3;
+    repeated Bill bills = 4;
+}
+
+message BillDailyList{
+    repeated BillDaily billDailies = 1;
+}
+
 message BillList{
     repeated Bill bills = 1;
 }

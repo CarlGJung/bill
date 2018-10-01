@@ -58,7 +58,8 @@ public class BillLabel extends Model{
     }
     
     public String getIcon(){
-        return getString(ICON);
+        String icon = getString(ICON);
+        return icon != null ? icon : "";
     }
     
     public void setIcon(String icon){
@@ -66,7 +67,8 @@ public class BillLabel extends Model{
     }
     
     public String getRemark(){
-        return getString(REMARK);
+        String remark = getString(REMARK);
+        return remark != null ? remark : "";
     }
     
     public void setRemark(String remark){

@@ -9,18 +9,30 @@
 </template>
 
 <template id="billList">
-    <ul class="bill-list" data-bind="foreach: $data.bills">
-        <li>
-            <!-- ko template: {name: "billLabel", data: $data.getLabel($parent.allLabels)}--> <!-- /ko -->
-            <div class="bill-prop">
-                <span data-bind="text: $data.getTypeName()"></span>
-                <span data-bind="text: $data.money"></span>
+    <ul class="bill-list" data-bind="foreach: $data.billDailies">
+        <li class="daily-summary">
+            <div class="daily-date">
+                <span data-bind="text: $data.dateLabel()"></span>
             </div>
-            <div class="bill-operate">
-                <span data-bind="click: $parent.prepareUpdateBill">编辑</span>
-                <span data-bind="click: $parent.deleteBill">删除</span>
+            <div class="daily-money">
+                <span data-bind="text: $data.incomeLabel()"></span>
+                <span data-bind="text: $data.paymentLabel()"></span>
             </div>
         </li>
+        
+        <ul class="bill-list" data-bind="foreach: $data.bills">
+            <li>
+                <!-- ko template: {name: "billLabel", data: $data.getLabel($parents[1].allLabels)}--> <!-- /ko -->
+                <div class="bill-prop">
+                    <span data-bind="text: $data.getTypeName()"></span>
+                    <span data-bind="text: $data.money"></span>
+                </div>
+                <div class="bill-operate">
+                    <span data-bind="click: $parent.prepareUpdateBill">编辑</span>
+                    <span data-bind="click: $parent.deleteBill">删除</span>
+                </div>
+            </li>
+        </ul>
     </ul>
 </template>
 

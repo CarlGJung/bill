@@ -93,7 +93,7 @@ function PbStoreAgent(pbStore, protobuf){
     function Bill(options={money: "", type: window.pbStore.BillType.PAYMENT, labelId: 0, time: 0}){
         this.label = null;
         this.typeEnum = null;
-        this.editModal = false;
+        this.inEditModal = false;
         this.assignUndeclaredFileds(options);
     }
 
@@ -108,13 +108,13 @@ function PbStoreAgent(pbStore, protobuf){
         }
     });
     
-    Bill.prototype.makeObservable = function(clone){
+    Bill.prototype.editModal = function(clone){
         var o = clone ? new Bill(this) : this;
         o.money = ko.observable(this.money);
         o.type = ko.observable(this.typeEnum);
-        o.time = ko.observable(this.time);
+        o.time = ko.observable(this.time || Date.now());
         o.label = ko.observable(this.label);
-        o.editModal = true;
+        o.inEditModal = true;
         return o;
     };
     
@@ -127,7 +127,7 @@ function PbStoreAgent(pbStore, protobuf){
     };
 
     Bill.prototype.getLabel = function(labels){
-        if (this.editModal) {
+        if (this.inEditModal) {
             return this.label();
         }
         
@@ -143,4 +143,34 @@ function PbStoreAgent(pbStore, protobuf){
         }
         return this.label;
     };
+    
+    function BillDaily(options={date: "", income: 0, payment: 0, bills: null}){
+        this.assignUndeclaredFileds(options);
+    }
+    
+    const YEAR_SPLIT = new Date().getFullYear() + "-";
+    BillDaily.prototype.dateLabel = function(){
+        if (this.date.startsWith(YEAR_SPLIT)) {
+            return this.date.substring(YEAR_SPLIT.length);
+        }
+        return this.date;
+    };
+    
+    BillDaily.prototype.incomeLabel = function(){
+        if (this.income) {
+            return "收入: " + this.income;
+        }
+        return "";
+    };
+    
+    BillDaily.prototype.paymentLabel = function(){
+        if (this.payment) {
+            return "支出: " + this.payment;
+        }
+        return "";
+    };
+    
+    pbStore.lookupType("BillDaily").ctor = BillDaily;
+    pbStore.BillDaily = BillDaily;
+    
 };

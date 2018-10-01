@@ -33,13 +33,13 @@ define(["knockout", "text!./bill.html", "css!./bill.css"], function(ko, htmlStri
     function BillPage(params){
         var self = this;
         
-        self.bills = ko.observableArray([]);
+        self.billDailies = ko.observableArray([]);
         self.allLabels = allLabels;
         
         self.getBillList = function(){
             ajax({url: "bills/bills", accept: "application/x-protobuf", success: function(data, xhr){
-                var bills = window.pbStore.BillList.decode(data);
-                self.bills(bills.bills);
+                var billDailies = window.pbStore.BillDailyList.decode(data);
+                self.billDailies(billDailies.billDailies);
             }});
         };
     
@@ -58,7 +58,7 @@ define(["knockout", "text!./bill.html", "css!./bill.css"], function(ko, htmlStri
         };
         
         self.prepareUpdateBill = function(bill){
-            rootView.showDialog(new RecordDialog({onHide: self.onRecordDialogHide, bill: bill.makeObservable(true)}));
+            rootView.showDialog(new RecordDialog({onHide: self.onRecordDialogHide, bill: bill.editModal(true)}));
         };
         
         getLabels(self.getBillList);
@@ -68,7 +68,7 @@ define(["knockout", "text!./bill.html", "css!./bill.css"], function(ko, htmlStri
         var self = this;
         self.params = params || {};
         self.onHide = params.onHide;
-        self.bill = params.bill || new pbStore.Bill().makeObservable();
+        self.bill = params.bill || new pbStore.Bill().editModal();
         self.success = !params.bill ? recordBill : updateBill;
         self.labels = ko.observableArray([]);
         self.header = "recordDialogHeader";

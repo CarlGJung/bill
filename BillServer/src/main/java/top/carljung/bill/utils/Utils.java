@@ -10,11 +10,11 @@ import top.carljung.bill.proto.ConfigStore;
  * @author wangchao
  */
 public class Utils {
-    private static final float KB = 1024F;
-    private static final float MB = 1024 * 1024F;
-    private static final float GB = 1024 * 1024 * 1024F;
-    private static final float TB = 1024 * 1024 * 1024F;
-    private static final DecimalFormat formater = new DecimalFormat(".00");
+    public static final float KB = 1024F;
+    public static final float MB = 1024 * 1024F;
+    public static final float GB = 1024 * 1024 * 1024F;
+    public static final float TB = 1024 * 1024 * 1024F;
+    public static final DecimalFormat formater = new DecimalFormat(".00");
     
     public static String sizeFormat(long size){
         if (size < KB) {
@@ -34,5 +34,5 @@ public class Utils {
         ConfigStore.Server serverConfig = Configuration.instance.getServerConfig();
         String salt = serverConfig.getSalt();
         return DigestUtils.sha1Hex(salt + str);
-    }
+    }    
 }

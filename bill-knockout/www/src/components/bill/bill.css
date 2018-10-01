@@ -2,3 +2,5 @@
 .bill-list div{display: inline-block;}
 .bill-list .bill-prop{margin-left: 80px;}
 .bill-list .bill-operate{float: right;margin-right: 5px;}
+.daily-summary{background-color: gainsboro;}
+.daily-money{float: right;margin-right: 10px;}

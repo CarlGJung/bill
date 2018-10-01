@@ -70,6 +70,36 @@
           }
         }
       },
+      BillDaily: {
+        fields: {
+          date: {
+            type: "string",
+            id: 1
+          },
+          income: {
+            type: "double",
+            id: 2
+          },
+          payment: {
+            type: "double",
+            id: 3
+          },
+          bills: {
+            rule: "repeated",
+            type: "Bill",
+            id: 4
+          }
+        }
+      },
+      BillDailyList: {
+        fields: {
+          billDailies: {
+            rule: "repeated",
+            type: "BillDaily",
+            id: 1
+          }
+        }
+      },
       BillList: {
         fields: {
           bills: {

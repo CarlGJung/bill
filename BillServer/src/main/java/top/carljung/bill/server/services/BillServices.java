@@ -16,6 +16,7 @@ import javax.ws.rs.core.SecurityContext;
 import org.glassfish.grizzly.http.server.Request;
 import top.carljung.bill.db.Bill;
 import top.carljung.bill.db.BillLabel;
+import top.carljung.bill.db.helper.BillHelper;
 import top.carljung.bill.proto.PBStore;
 import top.carljung.bill.server.MediaType;
 import top.carljung.bill.server.Session;
@@ -35,16 +36,16 @@ public class BillServices {
     @GET
     @Path("/bills")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_PROTOBUF})
-    public PBStore.BillList getBills(){
-        PBStore.BillList.Builder bills;
+    public PBStore.BillDailyList getBills(){
+        PBStore.BillDailyList bills;
         Session session = (Session)securityContext.getUserPrincipal();
         
         if (session != null) {
-            bills = Bill.getBillList(session.getUserId());
+            bills = BillHelper.getBillDailyList(session.getUserId());
         } else {
-            bills = PBStore.BillList.newBuilder();
+            bills = PBStore.BillDailyList.getDefaultInstance();
         }
-        return bills.build();
+        return bills;
     } 
     
     @PUT
@@ -57,7 +58,7 @@ public class BillServices {
             dbBill.setType(bill.getTypeValue());
             dbBill.setLabelId(bill.getLabelId());
             dbBill.setMoney(bill.getMoney());
-            dbBill.setTime(bill.getTime() > 0 ? bill.getTime() : System.currentTimeMillis());
+            dbBill.setTime(bill.getTime());
             dbBill.saveIt();
         }
         return Response.ok().build();

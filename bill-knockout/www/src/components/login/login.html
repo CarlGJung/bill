@@ -1,6 +1,6 @@
 <!-- ko component: {
   name: "page",
-  params: {body: 'body', footer: 'footer', data: $data}
+  params: {body: 'body', footer: 'footer', data: $data, css: 'login-page'}
 } --> 
 <!-- /ko -->
 
@@ -13,7 +13,9 @@
             <div class="form-group password">
                 <input type="password" placeholder="请输入密码" data-bind="textInput: password"/>
             </div>
-            <button class="btn btn-primary login-btn" type="submit" data-bind="click: login">登录</button>
+            <div class="form-group">
+                <button class="btn btn-primary login-btn" type="submit" data-bind="click: login">登录</button>
+            </div>
         </form>
     </div>
 </template>
