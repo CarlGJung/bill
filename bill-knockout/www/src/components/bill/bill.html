@@ -21,15 +21,14 @@
         </li>
         
         <ul class="bill-list" data-bind="foreach: $data.bills">
-            <li>
+            <li class="bill-item" data-bind="click: function(){$element.classList.toggle('selected');}">
                 <!-- ko template: {name: "billLabel", data: $data.getLabel($parents[1].allLabels)}--> <!-- /ko -->
-                <div class="bill-prop">
-                    <span data-bind="text: $data.getTypeName()"></span>
-                    <span data-bind="text: $data.money"></span>
-                </div>
                 <div class="bill-operate">
-                    <span data-bind="click: $parent.prepareUpdateBill">编辑</span>
-                    <span data-bind="click: $parent.deleteBill">删除</span>
+                    <span data-bind="click: $parents[1].prepareUpdateBill">编辑</span>
+                    <span data-bind="click: $parents[1].deleteBill">删除</span>
+                </div>
+                <div class="bill-prop">
+                    <span data-bind="text: $data.money"></span>
                 </div>
             </li>
         </ul>

@@ -100,15 +100,6 @@
           }
         }
       },
-      BillList: {
-        fields: {
-          bills: {
-            rule: "repeated",
-            type: "Bill",
-            id: 1
-          }
-        }
-      },
       BillLabel: {
         fields: {
           id: {

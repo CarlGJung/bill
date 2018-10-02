@@ -1,2 +1,3 @@
-.username, .password, .register-btn{width: 200px;}
+.form-group{width: 200px; margin-left: auto; margin-right: auto;}
+.form-group .btn{width: 100%;}
 

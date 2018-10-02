@@ -44,11 +44,7 @@ define(["knockout", "text!./bill.html", "css!./bill.css"], function(ko, htmlStri
         };
     
         self.showRecordDialog = function(){
-            rootView.showDialog(new RecordDialog({onHide: self.onRecordDialogHide}));
-        };
-    
-        self.onRecordDialogHide = function(){
-            self.getBillList();
+            rootView.showDialog(new RecordDialog({successCallback: self.getBillList}));
         };
         
         self.deleteBill = function(bill){
@@ -58,7 +54,7 @@ define(["knockout", "text!./bill.html", "css!./bill.css"], function(ko, htmlStri
         };
         
         self.prepareUpdateBill = function(bill){
-            rootView.showDialog(new RecordDialog({onHide: self.onRecordDialogHide, bill: bill.editModal(true)}));
+            rootView.showDialog(new RecordDialog({successCallback: self.getBillList, bill: bill.editModal(true)}));
         };
         
         getLabels(self.getBillList);
@@ -67,7 +63,7 @@ define(["knockout", "text!./bill.html", "css!./bill.css"], function(ko, htmlStri
     function RecordDialog(params){
         var self = this;
         self.params = params || {};
-        self.onHide = params.onHide;
+        var successCallback = params.successCallback;
         self.bill = params.bill || new pbStore.Bill().editModal();
         self.success = !params.bill ? recordBill : updateBill;
         self.labels = ko.observableArray([]);
@@ -122,7 +118,9 @@ define(["knockout", "text!./bill.html", "css!./bill.css"], function(ko, htmlStri
             if (self.bill.money() > 0) {
                 self.dialog.modal("hide");
                 ajax({url: "bills/record", method: "PUT", type: "application/x-protobuf", data: self.bill.toArrayBuffer(), success: function(data){
-
+                    if (successCallback) {
+                        successCallback();
+                    }    
                 }});
             }
         };
@@ -131,7 +129,9 @@ define(["knockout", "text!./bill.html", "css!./bill.css"], function(ko, htmlStri
             if (self.bill.money() > 0) {
                 self.dialog.modal("hide");
                 ajax({url: "bills/bills", method: "POST", type: "application/x-protobuf", data: self.bill.toArrayBuffer(), success: function(data){
-
+                    if (successCallback) {
+                        successCallback();
+                    } 
                 }});
             }
         }

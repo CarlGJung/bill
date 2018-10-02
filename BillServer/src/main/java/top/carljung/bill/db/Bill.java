@@ -80,7 +80,6 @@ public class Bill extends Model{
     }
     
     public static List<Bill> getBillList(int userId){
-        PBStore.BillList.Builder billList = PBStore.BillList.newBuilder();
         return Bill.find("user_id = ? AND state = ? ORDER BY bill_time DESC", userId, PBStore.DataState.ACTIVED_VALUE);
     }
     

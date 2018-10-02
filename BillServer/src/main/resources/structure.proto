@@ -39,10 +39,6 @@ message BillDailyList{
     repeated BillDaily billDailies = 1;
 }
 
-message BillList{
-    repeated Bill bills = 1;
-}
-
 message BillLabel{
     int32 id = 1;
     BillType type = 2;

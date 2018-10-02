@@ -1,6 +1,8 @@
 .footer .record{margin: auto;}
 .bill-list div{display: inline-block;}
-.bill-list .bill-prop{margin-left: 80px;}
-.bill-list .bill-operate{float: right;margin-right: 5px;}
+.bill-item{border-bottom: 1px solid #e5e5ec;}
+.bill-item .bill-prop{float: right;margin-right: 10px;}
+.bill-item .bill-operate{float: right;margin-right: 5px;display: none;}
+.bill-item.selected .bill-operate{display: inline-block;}
 .daily-summary{background-color: gainsboro;}
 .daily-money{float: right;margin-right: 10px;}
