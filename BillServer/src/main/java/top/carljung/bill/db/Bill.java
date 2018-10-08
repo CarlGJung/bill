@@ -2,6 +2,7 @@ package top.carljung.bill.db;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 import org.javalite.activejdbc.Model;
 import org.javalite.activejdbc.annotations.Table;
@@ -13,7 +14,6 @@ import top.carljung.bill.proto.PBStore;
  */
 @Table("bills")
 public class Bill extends Model{
-    public static final SimpleDateFormat FORMATOR = new SimpleDateFormat("yyyy-MM-dd");
     public static final String ID = "id";
     public static final String USER_ID = "user_id";
     public static final String LABEL_ID = "label_id";
@@ -21,9 +21,12 @@ public class Bill extends Model{
     public static final String MONEY = "money";
     public static final String STATE = "state";
     public static final String BILL_TIME = "bill_time";
-    public static final String BILL_DATE = "bill_date";
+    public static final String YEAR = "year";
+    public static final String MONTH = "month";
+    public static final String DAY_MONTH = "day_month";//day of month
+    public static final String WEEK_YEAR = "week_year";//week of year
     public static final String CREATED_AT = "created_at";
-    
+        
     public int getBillId(){
         return getInteger(ID);
     }
@@ -55,12 +58,28 @@ public class Bill extends Model{
         return getLong(BILL_TIME);
     }
     public void setTime(long time){
-        String date = FORMATOR.format(time);
         setLong(BILL_TIME, time);
-        setString(BILL_DATE, date);
+        
+        Calendar cal = new Calendar.Builder().setInstant(this.getTime()).build();
+        setShort(YEAR, cal.get(Calendar.YEAR));
+        setShort(MONTH, cal.get(Calendar.MONTH) + 1);//starts with 0
+        setShort(DAY_MONTH, cal.get(Calendar.DAY_OF_MONTH));
+        setShort(WEEK_YEAR, cal.get(Calendar.WEEK_OF_YEAR));
     }
-    public String getDate(){
-        return getString(BILL_DATE);    
+    public short getYear(){
+        return getShort(YEAR);
+    }
+    public short getMonth(){
+        return getShort(MONTH);
+    }
+    public short getDayOfMonth(){
+        return getShort(DAY_MONTH);
+    }
+    public short getWeekOfYear(){
+        return getShort(WEEK_YEAR);
+    }
+    public String getDateStr(){
+        return this.getYear() + "-" + this.getMonth() + "-" + this.getDayOfMonth();
     }
     public Date getCreatedAt(){
         return getDate(CREATED_AT);

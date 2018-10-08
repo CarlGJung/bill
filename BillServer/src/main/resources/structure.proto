@@ -29,10 +29,13 @@ message Bill{
 }
 
 message BillDaily{
-    string date = 1;
     double income = 2;
     double payment = 3;
     repeated Bill bills = 4;
+    int32 year = 5;
+    int32 month = 6;
+    int32 dayOfMonth = 7;
+    int32 weekOfYear = 8;
 }
 
 message BillDailyList{

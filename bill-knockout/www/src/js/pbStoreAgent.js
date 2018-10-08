@@ -148,12 +148,12 @@ function PbStoreAgent(pbStore, protobuf){
         this.assignUndeclaredFileds(options);
     }
     
-    const YEAR_SPLIT = new Date().getFullYear() + "-";
+    const YEAR = new Date().getFullYear();
     BillDaily.prototype.dateLabel = function(){
-        if (this.date.startsWith(YEAR_SPLIT)) {
-            return this.date.substring(YEAR_SPLIT.length);
+        if (this.year === YEAR) {
+            return this.month + "-" + this.dayOfMonth;
         }
-        return this.date;
+        return this.year + "-" + this.month + "-" + this.dayOfMonth;
     };
     
     BillDaily.prototype.incomeLabel = function(){

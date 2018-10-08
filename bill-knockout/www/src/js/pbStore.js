@@ -72,10 +72,6 @@
       },
       BillDaily: {
         fields: {
-          date: {
-            type: "string",
-            id: 1
-          },
           income: {
             type: "double",
             id: 2
@@ -88,6 +84,22 @@
             rule: "repeated",
             type: "Bill",
             id: 4
+          },
+          year: {
+            type: "int32",
+            id: 5
+          },
+          month: {
+            type: "int32",
+            id: 6
+          },
+          dayOfMonth: {
+            type: "int32",
+            id: 7
+          },
+          weekOfYear: {
+            type: "int32",
+            id: 8
           }
         }
       },

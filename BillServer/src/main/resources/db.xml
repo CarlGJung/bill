@@ -40,7 +40,10 @@
             <column name="bill_type" type="smallint" />
             <column name="money" type="${money}"></column>
             <column name="bill_time" type="bigint"></column>
-            <column name="bill_date" type="varchar(50)"></column>
+            <column name="year" type="smallint"></column>
+            <column name="month" type="smallint"></column>
+            <column name="day_month" type="smallint"></column>
+            <column name="week_year" type="smallint"></column>
             <column name="state" type="smallint" defaultValueNumeric="1"/>
             <column name="created_at" type="datetime" />
             <column name="updated_at" type="datetime" />
