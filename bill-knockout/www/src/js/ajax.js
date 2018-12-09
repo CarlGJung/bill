@@ -20,7 +20,7 @@ function ajax(options){
     xhr.open(method, url, true);
     xhr.setRequestHeader("Content-Type", type);
     xhr.setRequestHeader("Accept", accept);
-    xhr.responseType = accept.indexOf("text/") > 0 ? "text" : "arraybuffer";
+    xhr.responseType = accept.indexOf("text/") > -1 ? "text" : "arraybuffer";
     xhr.withCredentials = true;
     xhr.send(data);
 
